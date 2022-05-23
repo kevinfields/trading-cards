@@ -12,11 +12,16 @@
   font-size: 10pt;
   text-align: center;
   position: relative;
-  bottom: 0.5vh;
+  bottom: 3vh;
   color: blue;
 }
 
 .cards-link:hover {
   cursor: pointer;
   color: darkblue;
+}
+
+.tab-id {
+  font-size: 7pt;
+  margin: 0px;
 }
