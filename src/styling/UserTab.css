@@ -1,0 +1,22 @@
+.user-tab {
+  border: 1px solid black;
+  width: 25vw;
+  height: 25vh;
+}
+
+.tab-stat {
+  text-align: center;
+}
+
+.cards-link {
+  font-size: 10pt;
+  text-align: center;
+  position: relative;
+  bottom: 0.5vh;
+  color: blue;
+}
+
+.cards-link:hover {
+  cursor: pointer;
+  color: darkblue;
+}

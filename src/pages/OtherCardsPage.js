@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import LoadingScreen from "../components/LoadingScreen";
-import "../styling/MyCardsPage.css";
 
-const MyCards = (props) => {
-  const userRef = props.firestore.collection("users").doc(props.user.uid);
+const OtherCardsPage = (props) => {
+  const userRef = props.firestore.collection("users").doc(props.profileId);
   const cardsRef = props.firestore.collection("cards");
   const [cards, setCards] = useState([]);
 
-  const getCards = async () => {
-    let cardList = [];
+  const loadCards = async () => {
+    let cardList;
     await userRef.get().then((doc) => {
       cardList = doc.data().cards;
     });
-
     let allCards = [];
     for (let i = 0; i < cardList.length; i++) {
       await cardsRef
@@ -27,7 +25,7 @@ const MyCards = (props) => {
   };
 
   useEffect(() => {
-    getCards();
+    loadCards();
   }, []);
 
   return (
@@ -43,4 +41,4 @@ const MyCards = (props) => {
   );
 };
 
-export default MyCards;
+export default OtherCardsPage;
