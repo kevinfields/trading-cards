@@ -3,4 +3,9 @@
   flex-direction: column;
   gap: 1vh;
   overflow-y: scroll;
+  height: 89vh;
+  border: 1px solid black;
+  width: 30vw;
+  position: fixed;
+  left: 45vw
 }
