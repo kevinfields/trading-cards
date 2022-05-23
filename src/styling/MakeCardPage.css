@@ -11,5 +11,13 @@
   display: flex;
   flex-direction: column;
   width: 10vw;
-  
+  margin: 1vw;
+}
+
+.upload-card-button {
+  height: 5vh;
+  width: 8vw;
+  position: fixed;
+  left: 55vw;
+  top: 35vh;
 }

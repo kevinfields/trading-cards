@@ -2,7 +2,7 @@
   border: 2px solid blue;
   border-radius: 5px;
   box-shadow: 2px 2px 2px 2px rgb(0, 0, 95);
-  width: 10vw;
+  width: 12vw;
   height: 30vh;
   margin: 1vw;
   padding: 1vh;
@@ -13,4 +13,31 @@
   font-weight: bold;
   color: blue;
   text-align: center;
+}
+
+.card-stat {
+  margin: 0px;
+}
+
+.single-stat-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+}
+
+.single-stat-bar:hover {
+  cursor: pointer;
+  background: white;
+}
+
+.stat-title {
+  width: 5vw;
+}
+
+.bar-form {
+  align-self: center;
+}
+
+.value-form {
+  font-size: 2vh;
 }
