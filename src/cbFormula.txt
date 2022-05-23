@@ -1,0 +1,10 @@
+The basic formula for how stats affect others should look like this:
+
+Health
+Strength
+Defense
+Accuracy
+
+A base hit is calculated by multiplying strength by accuracy, and the defense against it is
+calcluated by multiplying the opponents' defense and accuracy. The resultant value of subtracting 
+the defense bonus from the base hit is removed from the defenders health.

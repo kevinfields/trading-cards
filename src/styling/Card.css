@@ -1,0 +1,16 @@
+.card {
+  border: 2px solid blue;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px rgb(0, 0, 95);
+  width: 10vw;
+  height: 30vh;
+  margin: 1vw;
+  padding: 1vh;
+}
+
+.card-name {
+  font-size: 15pt;
+  font-weight: bold;
+  color: blue;
+  text-align: center;
+}
