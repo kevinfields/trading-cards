@@ -14,3 +14,20 @@ A battle should consist of two cards taking turns attacking and defending.
 Players should be able to make trades, as well as stake cards in battles.
 The winner of a battle should receive xp to spend on new cards,
 or level up current ones.
+
+How to calculate a hit:
+
+Factors: attackerStrength, attackerAccuracy, defenderDefense, defenderAccuracy
+
+ex: 
+  attacker: 30 strength, 50 accuracy -> baseHit 15
+  defender: 30 defense, 50 accuracy -> baseBlock 15
+  
+  totalBaseHit -> 0.
+
+  Without randomized factors, this fight would go nowhere.
+
+  hit bonus: random number between 0 and baseHit -> i.e. 10
+  defense bonus: random number between 0 and baseBlock -> i.e. 4
+
+  totalHit = totalBaseHit + (hitBonus - defenseBonus)

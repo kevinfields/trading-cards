@@ -35,6 +35,7 @@ const ComputerBattlePage = (props) => {
   const dummy = useRef();
 
   const userRef = props.firestore.collection("users").doc(props.user.uid);
+  const allCardsRef = props.firestore.collection("cards");
   const opponentRef = props.firestore.collection("users").doc("computer");
   const opponentCardRef = props.firestore
     .collection("cards")
@@ -76,10 +77,22 @@ const ComputerBattlePage = (props) => {
 
   const chooseCard = async () => {
     let choices = [];
+    let objects = [];
     await userRef.get().then((doc) => {
       choices = doc.data().cards;
     });
-    setChoices(choices);
+    for (let i = 0; i < choices.length; i++) {
+      await allCardsRef
+        .doc(choices[i])
+        .get()
+        .then((doc) => {
+          objects.push({
+            id: choices[i],
+            name: doc.data().name,
+          });
+        });
+    }
+    setChoices(objects);
   };
 
   useEffect(() => {
@@ -136,32 +149,38 @@ const ComputerBattlePage = (props) => {
       return;
     }
     setAllow(false);
-    let baseHit = calculateHit(
+    let hit = calculateHit(
       attacker.strength,
       attacker.accuracy,
       defender.defense,
       defender.accuracy
     );
-    console.log("baseHit: " + baseHit);
+    let rally = calculateHit(
+      defender.strength,
+      defender.accuracy,
+      attacker.defense,
+      attacker.accuracy
+    );
+    console.log("baseHit: " + hit);
     switch (style) {
       case "slash":
         setDefender({
           ...defender,
-          health: defender.health - baseHit * 2,
+          health: defender.health - hit * 2,
         });
         break;
       case "stab":
         setDefender({
           ...defender,
-          health: defender.health - baseHit,
-          accuracy: defender.accuracy - baseHit,
+          health: defender.health - hit,
+          accuracy: defender.accuracy - hit,
         });
         break;
       case "crush":
         setDefender({
           ...defender,
-          health: defender.health - baseHit,
-          strength: defender.strength - baseHit,
+          health: defender.health - hit,
+          strength: defender.strength - hit,
         });
         break;
       default:
@@ -171,7 +190,7 @@ const ComputerBattlePage = (props) => {
       setTimeout(() => {
         setAttacker({
           ...attacker,
-          health: attacker.health - Math.floor(Math.random() * 10),
+          health: attacker.health - rally,
         });
         setAllow(true);
       }, [1000])
@@ -240,7 +259,8 @@ const ComputerBattlePage = (props) => {
             {choices.length > 0 &&
               choices.map((item) => (
                 <CardChoice
-                  text={item}
+                  text={item.name}
+                  id={item.id}
                   chooseCard={(choice) => makeChoice(choice)}
                 />
               ))}
