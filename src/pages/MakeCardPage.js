@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styling/MakeCardPage.css";
 import getTotalStats from "../functions/getTotalStats";
+import MAKE_CARD from "../reducers/MAKE_CARD";
 
 //cards should be made using a combination of the xpTotal and xpRemaining values stored
 //in the creators user document in firebase. Before gaining xp, the player can make low
@@ -34,34 +35,18 @@ const MakeCardPage = (props) => {
     if (!window.confirm("Are you sure? This action is final.")) {
       return;
     }
-
     let cardObject = {
       ...stats,
       ownerId: props.user.uid,
       creatorId: props.user.uid,
       ownerList: [props.user.uid],
+      victories: [],
+      defeats: [],
+      totalBattles: [],
     };
-    let id;
-    await cardsRef.add(cardObject).then((doc) => {
-      id = doc.id;
+    await MAKE_CARD(cardObject, userRef, cardsRef).then(() => {
+      props.nav("/my-cards");
     });
-
-    let data;
-    await userRef
-      .get()
-      .then((doc) => {
-        data = doc.data();
-      })
-      .then(() => {
-        userRef
-          .set({
-            ...data,
-            cards: data.cards.concat(id),
-          })
-          .then(() => {
-            props.nav("/my-cards");
-          });
-      });
   };
 
   const getMaxStats = async () => {

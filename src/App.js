@@ -11,6 +11,7 @@ import LogoutPage from "./pages/LogoutPage";
 import MyCards from "./pages/MyCardsPage";
 import AllUsersPage from "./pages/AllUsersPage";
 import OtherCardsPage from "./pages/OtherCardsPage";
+import ComputerBattlePage from "./pages/ComputerBattlePage";
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -23,6 +24,20 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
+
+const computerTestStats = {
+  health: 25,
+  defense: 25,
+  strength: 25,
+  accuracy: 25,
+};
+
+const playerTestStats = {
+  health: 50,
+  defense: 25,
+  strength: 50,
+  accuracy: 75,
+};
 
 function App() {
   const [user] = useAuthState(auth);
@@ -39,6 +54,7 @@ function App() {
       navigate(`/profile/${profileId}/cards`);
     }
   }, [profileId]);
+
   return (
     <div className="App">
       <Routes>
@@ -93,6 +109,15 @@ function App() {
                 <OtherCardsPage firestore={firestore} profileId={profileId} />
               }
             />
+            <Route
+              path="/computer-battle"
+              element={
+                <ComputerBattlePage
+                  attackerCard={playerTestStats}
+                  defenderCard={computerTestStats}
+                />
+              }
+            />
           </>
         )}
       </Routes>
@@ -103,6 +128,7 @@ function App() {
             <Link to="/make-card">Make Card</Link>
             <Link to="/my-cards">My Cards</Link>
             <Link to="/all-users">All Users</Link>
+            <Link to="/computer-battle">Battle Computer</Link>
             <Link to="/logout">Log Out</Link>
           </>
         ) : null}

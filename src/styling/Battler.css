@@ -1,0 +1,14 @@
+.battler {
+  border: 1px solid black;
+  width: 10vw;
+  height: 20vh;
+}
+
+.battler-stat {
+  font-size: 12pt;
+  margin: 0px;
+}
+
+.battler-position {
+  font-size: 9pt;
+}
