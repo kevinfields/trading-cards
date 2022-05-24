@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import Battler from "../components/Battler";
+import CardChoice from "../components/CardChoice";
+import calculateHit from "../functions/calculateHit";
+import ADD_BATTLE from "../reducers/ADD_BATTLE";
+import ADD_LOSS from "../reducers/ADD_LOSS";
+import ADD_WIN from "../reducers/ADD_WIN";
 import "../styling/ComputerBattlePage.css";
 
 const ComputerBattlePage = (props) => {
-  const [phase, setPhase] = useState(0);
-  const [attacking, setAttacking] = useState("computer");
+  const [cardRef, setCardRef] = useState("");
+  const [cardId, setCardId] = useState("");
+  const [choices, setChoices] = useState([]);
   const [attacker, setAttacker] = useState({
-    health: props.attackerCard.health,
-    strength: props.attackerCard.strength,
-    accuracy: props.attackerCard.accuracy,
-    defense: props.attackerCard.defense,
+    health: 1,
+    strength: 0,
+    accuracy: 0,
+    defense: 0,
   });
   const [defender, setDefender] = useState({
     health: props.defenderCard.health,
@@ -24,8 +30,16 @@ const ComputerBattlePage = (props) => {
     defenderY: 70,
   });
   const [positionChange, setPositionChange] = useState("");
+  const [allow, setAllow] = useState(true);
+  const [timeoutId, setTimeoutId] = useState("");
   const dummy = useRef();
 
+  const userRef = props.firestore.collection("users").doc(props.user.uid);
+  const opponentRef = props.firestore.collection("users").doc("computer");
+  const opponentCardRef = props.firestore
+    .collection("cards")
+    .doc(props.computerCardId);
+  const battleRef = props.firestore.collection("battles");
   const positionChanger = (key) => {
     if (key === "") {
       return;
@@ -60,8 +74,17 @@ const ComputerBattlePage = (props) => {
     }
   };
 
+  const chooseCard = async () => {
+    let choices = [];
+    await userRef.get().then((doc) => {
+      choices = doc.data().cards;
+    });
+    setChoices(choices);
+  };
+
   useEffect(() => {
     dummy.current.focus();
+    chooseCard();
   }, []);
 
   useEffect(() => {
@@ -71,7 +94,6 @@ const ComputerBattlePage = (props) => {
   }, [positionChange]);
 
   useEffect(() => {
-    //lord forgive me for this
     if (position.attackerX < 20 || position.attackerX > 85) {
       setPosition({
         ...position,
@@ -87,9 +109,148 @@ const ComputerBattlePage = (props) => {
     }
   }, [position]);
 
+  const makeChoice = async (card) => {
+    let reference = props.firestore.collection("cards").doc(card);
+    let data;
+    setCardRef(reference);
+    setCardId(card);
+    await reference
+      .get()
+      .then((doc) => {
+        data = doc.data();
+      })
+      .then(() => {
+        setAttacker({
+          health: data.health,
+          strength: data.strength,
+          accuracy: data.accuracy,
+          defense: data.defense,
+        });
+        setAllow(true);
+        setChoices([]);
+      });
+  };
+
+  const newRound = (style) => {
+    if (!allow) {
+      return;
+    }
+    setAllow(false);
+    let baseHit = calculateHit(
+      attacker.strength,
+      attacker.accuracy,
+      defender.defense,
+      defender.accuracy
+    );
+    console.log("baseHit: " + baseHit);
+    switch (style) {
+      case "slash":
+        setDefender({
+          ...defender,
+          health: defender.health - baseHit * 2,
+        });
+        break;
+      case "stab":
+        setDefender({
+          ...defender,
+          health: defender.health - baseHit,
+          accuracy: defender.accuracy - baseHit,
+        });
+        break;
+      case "crush":
+        setDefender({
+          ...defender,
+          health: defender.health - baseHit,
+          strength: defender.strength - baseHit,
+        });
+        break;
+      default:
+        break;
+    }
+    setTimeoutId(
+      setTimeout(() => {
+        setAttacker({
+          ...attacker,
+          health: attacker.health - Math.floor(Math.random() * 10),
+        });
+        setAllow(true);
+      }, [1000])
+    );
+  };
+
+  const restartGame = () => {
+    setAllow(false);
+    setDefender({
+      health: props.defenderCard.health,
+      strength: props.defenderCard.strength,
+      accuracy: props.defenderCard.accuracy,
+      defense: props.defenderCard.defense,
+    });
+    setAttacker({
+      health: 1,
+      strength: 0,
+      accuracy: 0,
+      defense: 0,
+    });
+    setCardId("");
+    setCardRef("");
+    dummy.current.focus();
+    chooseCard();
+  };
+
+  useEffect(() => {
+    if (attacker.health <= 0) {
+      clearTimeout(timeoutId);
+      ADD_LOSS(userRef, cardRef, props.computerCardId);
+      ADD_WIN(opponentRef, opponentCardRef, cardId);
+      ADD_BATTLE(
+        battleRef,
+        props.user.uid,
+        cardId,
+        "computer",
+        props.computerCardId,
+        "computer"
+      );
+      alert("Sorry, you have lost");
+      restartGame();
+    }
+    if (defender.health <= 0) {
+      clearTimeout(timeoutId);
+      ADD_WIN(userRef, cardRef, props.computerCardId);
+      ADD_LOSS(opponentRef, opponentCardRef, cardId);
+      ADD_BATTLE(
+        battleRef,
+        props.user.uid,
+        cardId,
+        "computer",
+        props.computerCardId,
+        props.user.uid
+      );
+      alert("Congratulations, you win!");
+      restartGame();
+    }
+  }, [attacker, defender]);
+
   return (
     <div className="page">
       <div className="battle-screen">
+        {choices.length > 0 ? (
+          <div className="choose-card-screen">
+            <p className="card-screen-header">Choose one of your cards</p>
+            {choices.length > 0 &&
+              choices.map((item) => (
+                <CardChoice
+                  text={item}
+                  chooseCard={(choice) => makeChoice(choice)}
+                />
+              ))}
+          </div>
+        ) : null}
+        <div className="attack-buttons">
+          <button onClick={() => newRound("slash")}>Slash</button>
+          <button onClick={() => newRound("stab")}>Stab</button>
+          <button onClick={() => newRound("crush")}>Crush</button>
+        </div>
         <input
           type="text"
           value={positionChange}

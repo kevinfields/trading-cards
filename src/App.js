@@ -12,6 +12,7 @@ import MyCards from "./pages/MyCardsPage";
 import AllUsersPage from "./pages/AllUsersPage";
 import OtherCardsPage from "./pages/OtherCardsPage";
 import ComputerBattlePage from "./pages/ComputerBattlePage";
+import ChooseBattlePage from "./pages/ChooseBattlePage";
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -25,18 +26,39 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
-const computerTestStats = {
+const computerBeginnerStats = {
+  health: 10,
+  defense: 10,
+  strength: 10,
+  accuracy: 10,
+};
+
+const computerNoviceStats = {
   health: 25,
   defense: 25,
   strength: 25,
   accuracy: 25,
 };
 
-const playerTestStats = {
+const computerProficientStats = {
   health: 50,
-  defense: 25,
+  defense: 50,
   strength: 50,
+  accuracy: 50,
+};
+
+const computerExpertStats = {
+  health: 75,
+  defense: 75,
+  strength: 75,
   accuracy: 75,
+};
+
+const computerMasterStats = {
+  health: 95,
+  defense: 95,
+  strength: 95,
+  accuracy: 95,
 };
 
 function App() {
@@ -109,12 +131,59 @@ function App() {
                 <OtherCardsPage firestore={firestore} profileId={profileId} />
               }
             />
+            <Route path="/computer-battle" element={<ChooseBattlePage />} />
             <Route
-              path="/computer-battle"
+              path="/computer-battle-novice"
               element={
                 <ComputerBattlePage
-                  attackerCard={playerTestStats}
-                  defenderCard={computerTestStats}
+                  defenderCard={computerNoviceStats}
+                  computerCardId="computerNovice"
+                  user={user}
+                  firestore={firestore}
+                />
+              }
+            />
+            <Route
+              path="/computer-battle-beginner"
+              element={
+                <ComputerBattlePage
+                  defenderCard={computerBeginnerStats}
+                  computerCardId="computerBeginner"
+                  user={user}
+                  firestore={firestore}
+                />
+              }
+            />
+            <Route
+              path="/computer-battle-proficient"
+              element={
+                <ComputerBattlePage
+                  defenderCard={computerProficientStats}
+                  computerCardId="computerProficient"
+                  user={user}
+                  firestore={firestore}
+                />
+              }
+            />
+            <Route
+              path="/computer-battle-expert"
+              element={
+                <ComputerBattlePage
+                  defenderCard={computerExpertStats}
+                  computerCardId="computerExpert"
+                  user={user}
+                  firestore={firestore}
+                />
+              }
+            />
+            <Route
+              path="/computer-battle-master"
+              element={
+                <ComputerBattlePage
+                  defenderCard={computerMasterStats}
+                  computerCardId="computerMaster"
+                  user={user}
+                  firestore={firestore}
                 />
               }
             />
