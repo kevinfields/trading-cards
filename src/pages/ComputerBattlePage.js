@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Battler from "../components/Battler";
 import CardChoice from "../components/CardChoice";
+import HitSplat from "../components/HitSplat";
+import LoadingScreen from "../components/LoadingScreen";
 import calculateHit from "../functions/calculateHit";
 import ADD_BATTLE from "../reducers/ADD_BATTLE";
 import ADD_LOSS from "../reducers/ADD_LOSS";
@@ -32,6 +34,12 @@ const ComputerBattlePage = (props) => {
   const [positionChange, setPositionChange] = useState("");
   const [allow, setAllow] = useState(false);
   const [timeoutId, setTimeoutId] = useState("");
+  const [splatTimeoutId, setSplatTimeoutId] = useState("");
+  const [round, setRound] = useState(0);
+  const [hitSplat, setHitSplat] = useState({
+    damage: 0,
+    player: "",
+  });
   const dummy = useRef();
 
   const userRef = props.firestore.collection("users").doc(props.user.uid);
@@ -89,6 +97,10 @@ const ComputerBattlePage = (props) => {
           objects.push({
             id: choices[i],
             name: doc.data().name,
+            health: doc.data().health,
+            strength: doc.data().strength,
+            accuracy: doc.data().accuracy,
+            defense: doc.data().defense,
           });
         });
     }
@@ -123,6 +135,7 @@ const ComputerBattlePage = (props) => {
   }, [position]);
 
   const makeChoice = async (card) => {
+    dummy.current.focus();
     let reference = props.firestore.collection("cards").doc(card);
     let data;
     setCardRef(reference);
@@ -141,13 +154,16 @@ const ComputerBattlePage = (props) => {
         });
         setAllow(true);
         setChoices([]);
+        setRound(1);
       });
   };
 
   const newRound = (style) => {
+    dummy.current.focus();
     if (!allow) {
       return;
     }
+    clearTimeout(splatTimeoutId);
     setAllow(false);
     let hit = calculateHit(
       attacker.strength,
@@ -155,6 +171,10 @@ const ComputerBattlePage = (props) => {
       defender.defense,
       defender.accuracy
     );
+    setHitSplat({
+      damage: hit,
+      player: "computer",
+    });
     let rally = calculateHit(
       defender.strength,
       defender.accuracy,
@@ -187,14 +207,32 @@ const ComputerBattlePage = (props) => {
     }
     setTimeoutId(
       setTimeout(() => {
+        setHitSplat({
+          damage: rally,
+          player: "player",
+        });
         setAttacker({
           ...attacker,
           health: attacker.health - rally,
         });
         setAllow(true);
+        setRound(round + 1);
       }, [1000])
     );
   };
+
+  useEffect(() => {
+    if (hitSplat.player === "player") {
+      setSplatTimeoutId(
+        setTimeout(() => {
+          setHitSplat({
+            damage: 0,
+            player: "",
+          });
+        }, [1000])
+      );
+    }
+  }, [hitSplat]);
 
   const restartGame = () => {
     setAllow(false);
@@ -212,6 +250,10 @@ const ComputerBattlePage = (props) => {
     });
     setCardId("");
     setCardRef("");
+    setHitSplat({
+      damage: 0,
+      player: "",
+    });
     dummy.current.focus();
     chooseCard();
   };
@@ -251,6 +293,7 @@ const ComputerBattlePage = (props) => {
 
   return (
     <div className="page">
+      {round > 0 ? <h3 className="round-title">Round {round}</h3> : null}
       <div className="battle-screen">
         {choices.length > 0 ? (
           <div className="choose-card-screen">
@@ -262,9 +305,17 @@ const ComputerBattlePage = (props) => {
                   id={item.id}
                   chooseCard={(choice) => makeChoice(choice)}
                   key={item.id}
+                  stats={{
+                    health: item.health,
+                    strength: item.strength,
+                    accuracy: item.accuracy,
+                    defense: item.defense,
+                  }}
                 />
               ))}
           </div>
+        ) : choices.length === 0 && round === 0 ? (
+          <LoadingScreen />
         ) : null}
         <div className="attack-buttons">
           {allow ? (
@@ -289,6 +340,7 @@ const ComputerBattlePage = (props) => {
             left: `${position.attackerX}vw`,
             bottom: `${position.attackerY}vh`,
           }}
+          playerType="player"
         />
         <Battler
           stats={defender}
@@ -297,7 +349,23 @@ const ComputerBattlePage = (props) => {
             left: `${position.defenderX}vw`,
             bottom: `${position.defenderY}vh`,
           }}
+          playerType="computer"
         />
+        {hitSplat.player !== "" ? (
+          <HitSplat
+            damage={hitSplat.damage}
+            x={
+              hitSplat.player === "player"
+                ? position.attackerX
+                : position.defenderX
+            }
+            y={
+              hitSplat.player === "player"
+                ? position.attackerY
+                : position.defenderY
+            }
+          />
+        ) : null}
       </div>
     </div>
   );

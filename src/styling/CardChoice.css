@@ -1,0 +1,19 @@
+.card-choice {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+  border: 2px solid black;
+  width: 35vw;
+  height: 5vh;
+  position: relative;
+  left: 1.5vw;
+}
+
+.card-choice:hover {
+  border: 2px solid blue;
+  background: lightblue;
+}
+
+.card-choice-single-value {
+  font-size: 10pt;
+}

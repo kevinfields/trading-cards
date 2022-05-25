@@ -3,7 +3,7 @@ import "../styling/Battler.css";
 
 const Battler = (props) => {
   return (
-    <div className="battler" style={props.style}>
+    <div className="battler" id={props.playerType} style={props.style}>
       <p className="battler-stat">Health: {props.stats.health}</p>
       <p className="battler-stat">Strength: {props.stats.strength}</p>
       <p className="battler-stat">Defense: {props.stats.defense}</p>

@@ -15,6 +15,9 @@ import ComputerBattlePage from "./pages/ComputerBattlePage";
 import ChooseBattlePage from "./pages/ChooseBattlePage";
 import ChooseUpgradePage from "./pages/ChooseUpgradePage";
 import UpgradeCardPage from "./pages/UpgradeCardPage";
+import ProfilePage from "./pages/ProfilePage";
+import OtherProfilePage from "./pages/OtherProfilePage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -67,11 +70,16 @@ function App() {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
 
-  const [profileId, setProfileId] = useState("");
+  const [cardsId, setCardsId] = useState("");
+  const [lookupId, setLookupId] = useState("");
   const [upgradeId, setUpgradeId] = useState("-");
 
+  const lookupUserCards = (id) => {
+    setCardsId(id);
+  };
+
   const lookupUser = (id) => {
-    setProfileId(id);
+    setLookupId(id);
   };
 
   const upgradeCard = (id) => {
@@ -79,16 +87,22 @@ function App() {
   };
 
   useEffect(() => {
-    if (profileId !== "") {
-      navigate(`/profile/${profileId}/cards`);
+    if (cardsId !== "") {
+      navigate(`/profile/${cardsId}/cards`);
     }
-  }, [profileId]);
+  }, [cardsId]);
 
   useEffect(() => {
     if (upgradeId !== "-") {
       navigate(`/upgrade-card/${upgradeId}`);
     }
   }, [upgradeId]);
+
+  useEffect(() => {
+    if (lookupId !== "") {
+      navigate(`/profile/${lookupId}`);
+    }
+  }, [lookupId]);
 
   return (
     <div className="App">
@@ -126,7 +140,8 @@ function App() {
                 <AllUsersPage
                   firestore={firestore}
                   user={user}
-                  changeUser={(id) => lookupUser(id)}
+                  lookupUserCards={(id) => lookupUserCards(id)}
+                  lookupUser={(id) => lookupUser(id)}
                 />
               }
             />
@@ -139,9 +154,9 @@ function App() {
               element={<MyCards user={user} firestore={firestore} />}
             />
             <Route
-              path={`/profile/${profileId}/cards`}
+              path={`/profile/${cardsId}/cards`}
               element={
-                <OtherCardsPage firestore={firestore} profileId={profileId} />
+                <OtherCardsPage firestore={firestore} profileId={cardsId} />
               }
             />
             <Route path="/computer-battle" element={<ChooseBattlePage />} />
@@ -221,6 +236,33 @@ function App() {
                 />
               }
             />
+            <Route
+              path="/my-profile"
+              element={
+                <ProfilePage
+                  userRef={firestore.collection("users").doc(user.uid)}
+                />
+              }
+            />
+            {lookupId !== "" ? (
+              <Route
+                exact
+                path={`/profile/${lookupId}`}
+                element={
+                  <OtherProfilePage
+                    userRef={firestore.collection("users").doc(lookupId)}
+                  />
+                }
+              />
+            ) : null}
+            <Route
+              path="/edit-profile"
+              element={
+                <EditProfilePage
+                  userRef={firestore.collection("users").doc(user.uid)}
+                />
+              }
+            />
           </>
         )}
       </Routes>
@@ -228,8 +270,9 @@ function App() {
         {user ? (
           <>
             <Link to="/">Home</Link>
-            <Link to="/make-card">Make Card</Link>
+            <Link to="/my-profile">My Profile</Link>
             <Link to="/my-cards">My Cards</Link>
+            <Link to="/make-card">Make Card</Link>
             <Link to="/upgrade-card">Upgrade a Card</Link>
             <Link to="/computer-battle">Battle Computer</Link>
             <Link to="/all-users">All Users</Link>

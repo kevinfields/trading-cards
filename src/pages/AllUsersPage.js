@@ -27,7 +27,11 @@ const AllUsersPage = (props) => {
       <div className="users-list">
         {users.length > 0 &&
           users.map((item) => (
-            <UserTab user={item} onChange={() => props.changeUser(item.id)} />
+            <UserTab
+              user={item}
+              onLookupCards={() => props.lookupUserCards(item.id)}
+              onLookupUser={() => props.lookupUser(item.id)}
+            />
           ))}
       </div>
     </div>

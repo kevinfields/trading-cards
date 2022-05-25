@@ -8,8 +8,11 @@ const UserTab = (props) => {
       <p className="tab-stat">{props.user.name}</p>
       <p className="tab-stat">Total XP: {props.user.xpTotal}</p>
       <p className="tab-stat">Number of Cards: {props.user.cards.length}</p>
-      <p className="cards-link" onClick={() => props.onChange()}>
+      <p className="cards-link" onClick={() => props.onLookupCards()}>
         View Cards
+      </p>
+      <p className="profile-link" onClick={() => props.onLookupUser()}>
+        View Profile
       </p>
     </div>
   );
