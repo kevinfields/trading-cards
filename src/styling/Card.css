@@ -41,3 +41,9 @@
 .value-form {
   font-size: 2vh;
 }
+
+.win-loss-ratio {
+  border: 1px solid black;
+  margin-top: 2vh;
+  padding: 0.5vh;
+}

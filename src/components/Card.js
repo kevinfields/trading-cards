@@ -35,6 +35,14 @@ const Card = (props) => {
           title="Accuracy"
         />
       </p>
+      <div className='win-loss-ratio'>
+        <p className='card-stat'>
+          Wins: {props.card.victories ? props.card.victories.length : 0}
+        </p>
+        <p className='card-stat'>
+          Losses: {props.card.defeats ? props.card.defeats.length : 0}
+        </p>
+      </div>
     </div>
   );
 };
