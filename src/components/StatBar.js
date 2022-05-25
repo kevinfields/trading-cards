@@ -14,11 +14,12 @@ const StatBar = (props) => {
         <div
           className="bar-form"
           style={{
-            background: "red",
             width: props.width,
-            height: "2vh",
+            height: "2.2vh",
           }}
-        />
+        >
+          {props.value}
+        </div>
       ) : (
         <div className="value-form">{props.value} / 100</div>
       )}

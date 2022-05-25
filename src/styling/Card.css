@@ -2,8 +2,8 @@
   border: 2px solid blue;
   border-radius: 5px;
   box-shadow: 2px 2px 2px 2px rgb(0, 0, 95);
-  width: 12vw;
-  height: 36vh;
+  width: 14vw;
+  height: 37vh;
   margin: 1vw;
   padding: 1vh;
 }
@@ -13,6 +13,9 @@
   font-weight: bold;
   color: blue;
   text-align: center;
+  width: 12vw;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 .card-stat {
@@ -36,10 +39,23 @@
 
 .bar-form {
   align-self: center;
+  color: transparent;
+  font-size: 2vh;
+  background: red;
+  line-height: 2vh;
+}
+
+.bar-form:hover {
+  background-color: transparent;
+  border: 1px solid red;
+  color: blue;
+  background: white;
 }
 
 .value-form {
   font-size: 2vh;
+  line-height: 2vh;
+  margin-top: 1vh;
 }
 
 .win-loss-ratio {

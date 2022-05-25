@@ -1,0 +1,16 @@
+.upgrade-card-choice {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 75vh;
+}
+
+.upgrade-option:hover {
+  border: 2px solid green;
+  cursor: pointer;
+}
+
+.non-upgrade-option {
+  background: lightgray;
+}

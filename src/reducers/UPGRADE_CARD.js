@@ -49,6 +49,7 @@ export default async function UPGRADE_CARD(
     strength: newData.strength,
     accuracy: newData.accuracy,
     defense: newData.defense,
+    upgrades: cardData.upgrades ? Number(cardData.upgrades) + 1 : 1,
   });
   await userRef.set({
     ...data,
