@@ -13,6 +13,8 @@ import AllUsersPage from "./pages/AllUsersPage";
 import OtherCardsPage from "./pages/OtherCardsPage";
 import ComputerBattlePage from "./pages/ComputerBattlePage";
 import ChooseBattlePage from "./pages/ChooseBattlePage";
+import ChooseUpgradePage from "./pages/ChooseUpgradePage";
+import UpgradeCardPage from "./pages/UpgradeCardPage";
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -66,9 +68,14 @@ function App() {
   const navigate = useNavigate();
 
   const [profileId, setProfileId] = useState("");
+  const [upgradeId, setUpgradeId] = useState("-");
 
   const lookupUser = (id) => {
     setProfileId(id);
+  };
+
+  const upgradeCard = (id) => {
+    setUpgradeId(id);
   };
 
   useEffect(() => {
@@ -76,6 +83,12 @@ function App() {
       navigate(`/profile/${profileId}/cards`);
     }
   }, [profileId]);
+
+  useEffect(() => {
+    if (upgradeId !== "-") {
+      navigate(`/upgrade-card/${upgradeId}`);
+    }
+  }, [upgradeId]);
 
   return (
     <div className="App">
@@ -187,6 +200,26 @@ function App() {
                 />
               }
             />
+            <Route
+              path="/upgrade-card"
+              element={
+                <ChooseUpgradePage
+                  userRef={firestore.collection("users").doc(user.uid)}
+                  cardsRef={firestore.collection("cards")}
+                  onSelect={(id) => upgradeCard(id)}
+                />
+              }
+            />
+            <Route
+              exact
+              path={`/upgrade-card/${upgradeId}/`}
+              element={
+                <UpgradeCardPage
+                  id={upgradeId}
+                  cardsRef={firestore.collection("cards")}
+                />
+              }
+            />
           </>
         )}
       </Routes>
@@ -198,6 +231,7 @@ function App() {
             <Link to="/my-cards">My Cards</Link>
             <Link to="/all-users">All Users</Link>
             <Link to="/computer-battle">Battle Computer</Link>
+            <Link to="/upgrade-card">Upgrade a Card</Link>
             <Link to="/logout">Log Out</Link>
           </>
         ) : null}
