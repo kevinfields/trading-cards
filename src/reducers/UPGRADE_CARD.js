@@ -14,7 +14,7 @@ export default async function UPGRADE_CARD(
     data = doc.data();
   });
 
-  const newBalance = data.remainingXp - totalCost;
+  const newBalance = Number(data.xpRemaining) - Number(totalCost);
 
   if (newBalance < 0) {
     alert("You don't have enough points!");
@@ -27,10 +27,20 @@ export default async function UPGRADE_CARD(
   });
 
   const newData = {
-    health: cardData.health + health,
-    strength: cardData.strength + strength,
-    accuracy: cardData.accuracy + accuracy,
-    defense: cardData.defense + defense,
+    health:
+      health > 0 ? Number(cardData.health) + Number(health) : cardData.health,
+    strength:
+      strength > 0
+        ? Number(cardData.strength) + Number(strength)
+        : cardData.strength,
+    accuracy:
+      accuracy > 0
+        ? Number(cardData.accuracy) + Number(accuracy)
+        : cardData.accuracy,
+    defense:
+      defense > 0
+        ? Number(cardData.defense) + Number(defense)
+        : cardData.defense,
   };
 
   await cardRef.set({
@@ -42,6 +52,6 @@ export default async function UPGRADE_CARD(
   });
   await userRef.set({
     ...data,
-    remainingXp: newBalance,
+    xpRemaining: newBalance,
   });
 }

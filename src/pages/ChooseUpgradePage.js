@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import LoadingScreen from "../components/LoadingScreen";
 
 const ChooseUpgradePage = (props) => {
   const [cardList, setCardList] = useState([]);
@@ -34,15 +35,19 @@ const ChooseUpgradePage = (props) => {
   return (
     <div className="page">
       <h3>Choose a card to upgrade</h3>
-      {cardList.length > 0 &&
+      {cardList.length > 0 ? (
         cardList.map((item) => (
           <div
             className="upgrade-card-choice"
             onClick={() => selectUpgrade(item.id)}
+            key={item.id}
           >
             Upgrade {item.data.name}
           </div>
-        ))}
+        ))
+      ) : (
+        <LoadingScreen />
+      )}
     </div>
   );
 };

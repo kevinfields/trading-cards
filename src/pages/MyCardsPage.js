@@ -34,7 +34,9 @@ const MyCards = (props) => {
     <div className="page">
       <div className="card-list">
         {cards.length > 0 ? (
-          cards.map((card) => <Card card={card} />)
+          cards.map((card) => (
+            <Card card={card} key={`${card.creatorId}${card.name}`} />
+          ))
         ) : (
           <LoadingScreen />
         )}

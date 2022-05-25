@@ -20,7 +20,7 @@ const MakeCardPage = (props) => {
     creatorId: props.user.uid,
   });
   const [maxStats, setMaxStats] = useState(0);
-  const [remainingStats, setRemainingStats] = useState(100);
+  const [remainingStats, setRemainingStats] = useState(0);
 
   const uploadCard = async () => {
     if (remainingStats !== 0) {
@@ -52,6 +52,7 @@ const MakeCardPage = (props) => {
   const getMaxStats = async () => {
     await userRef.get().then((doc) => {
       setMaxStats(doc.data().xpRemaining + 100);
+      setRemainingStats(doc.data().xpRemaining + 100);
     });
   };
 

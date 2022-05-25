@@ -30,7 +30,7 @@ const ComputerBattlePage = (props) => {
     defenderY: 70,
   });
   const [positionChange, setPositionChange] = useState("");
-  const [allow, setAllow] = useState(true);
+  const [allow, setAllow] = useState(false);
   const [timeoutId, setTimeoutId] = useState("");
   const dummy = useRef();
 
@@ -161,26 +161,25 @@ const ComputerBattlePage = (props) => {
       attacker.defense,
       attacker.accuracy
     );
-    console.log("baseHit: " + hit);
     switch (style) {
       case "slash":
         setDefender({
           ...defender,
-          health: defender.health - hit * 2,
+          health: defender.health - hit,
         });
         break;
       case "stab":
         setDefender({
           ...defender,
-          health: defender.health - hit,
-          accuracy: defender.accuracy - hit,
+          health: defender.health - Math.floor(hit / 2),
+          accuracy: defender.accuracy - Math.floor(hit / 2),
         });
         break;
       case "crush":
         setDefender({
           ...defender,
-          health: defender.health - hit,
-          strength: defender.strength - hit,
+          health: defender.health - Math.floor(hit / 2),
+          strength: defender.strength - Math.floor(hit / 2),
         });
         break;
       default:
@@ -262,14 +261,19 @@ const ComputerBattlePage = (props) => {
                   text={item.name}
                   id={item.id}
                   chooseCard={(choice) => makeChoice(choice)}
+                  key={item.id}
                 />
               ))}
           </div>
         ) : null}
         <div className="attack-buttons">
-          <button onClick={() => newRound("slash")}>Slash</button>
-          <button onClick={() => newRound("stab")}>Stab</button>
-          <button onClick={() => newRound("crush")}>Crush</button>
+          {allow ? (
+            <>
+              <button onClick={() => newRound("slash")}>Slash</button>
+              <button onClick={() => newRound("stab")}>Stab</button>
+              <button onClick={() => newRound("crush")}>Crush</button>
+            </>
+          ) : null}
         </div>
         <input
           type="text"

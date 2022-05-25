@@ -1,0 +1,154 @@
+.upgrade-card-before-screen {
+  position: fixed;
+  left: 30vw;
+  top: 30vh;
+  border: 1px solid black;
+  width: 30vw;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+
+.upgrade-card-after-screen {
+  position: fixed;
+  left: 62.5vw;
+  width: 30vw;
+  height: 40vh;
+  top: 30vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  border: 1px solid black;
+}
+
+.card-upgrade-stat {
+  margin: 0px;
+}
+
+.upgrade-buttons {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  left: 62.5vw;
+  top: 20vh;
+  gap: 1vw;
+}
+
+.downgrade-buttons {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  left: 62.5vw;
+  top: 75vh;
+  gap: 1vw;
+}
+
+.upgrader {
+  font-size: 8pt;
+  width: 4.5vw;
+  height: 5vh;
+  background-color: transparent;
+  color: green;
+  border-top: 1px solid green;
+  border-left: 1px solid green;
+  border-right: 3px solid green;
+  border-bottom: 3px solid green;
+}
+
+.downgrader {
+  font-size: 8pt;
+  width: 4.5vw;
+  height: 5vh;
+  background-color: transparent;
+  color: red;
+  border-top: 1px solid red;
+  border-left: 1px solid red;
+  border-right: 3px solid red;
+  border-bottom: 3px solid red;
+}
+
+.upgrader:hover {
+  cursor: pointer;
+  background-color: lightgreen;
+}
+
+.downgrader:hover {
+  cursor: pointer;
+  background-color: pink;
+}
+
+.upgrader:active {
+  border-right: 1px solid green;
+  border-bottom: 1px solid green;
+  border-top: 3px solid green;
+  border-left: 3px solid green;
+  background-color: lightgreen;
+}
+
+.downgrader:active {
+  border-right: 1px solid red;
+  border-bottom: 1px solid red;
+  border-top: 3px solid red;
+  border-left: 3px solid red;
+  background-color: pink;
+}
+
+.reset-button {
+  font-size: 8pt;
+  width: 9vw;
+  height: 5vh;
+  background-color: transparent;
+  color: red;
+  border-top: 1px solid red;
+  border-left: 1px solid red;
+  border-right: 3px solid red;
+  border-bottom: 3px solid red;
+}
+
+.reset-button:hover {
+  cursor: pointer;
+  background-color: pink;
+}
+
+.reset-button:active {
+  border-right: 1px solid red;
+  border-bottom: 1px solid red;
+  border-top: 3px solid red;
+  border-left: 3px solid red;
+  background-color: pink;
+}
+
+.make-purchase-button {
+  position: fixed;
+  left: 40vw;
+  top: 80vh;
+  height: 10vh;
+  width: 20vw;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-bottom: 3px solid black;
+  border-right: 3px solid black;
+  background-color: transparent;
+  text-align: center;
+  font-size: 14pt;
+  line-height: 4vh;
+  padding: 1vh;
+}
+
+.make-purchase-button:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.make-purchase-button:active {
+  background-color: lightgray;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  border-top: 3px solid black;
+  border-left: 3px solid black;
+}

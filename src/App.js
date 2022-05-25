@@ -216,6 +216,7 @@ function App() {
               element={
                 <UpgradeCardPage
                   id={upgradeId}
+                  userRef={firestore.collection("users").doc(user.uid)}
                   cardsRef={firestore.collection("cards")}
                 />
               }
@@ -229,9 +230,9 @@ function App() {
             <Link to="/">Home</Link>
             <Link to="/make-card">Make Card</Link>
             <Link to="/my-cards">My Cards</Link>
-            <Link to="/all-users">All Users</Link>
-            <Link to="/computer-battle">Battle Computer</Link>
             <Link to="/upgrade-card">Upgrade a Card</Link>
+            <Link to="/computer-battle">Battle Computer</Link>
+            <Link to="/all-users">All Users</Link>
             <Link to="/logout">Log Out</Link>
           </>
         ) : null}
