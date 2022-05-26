@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import '../styling/EditProfilePage.css';
 import EDIT_PROFILE from "../reducers/EDIT_PROFILE";
+import checkEmail from "../functions/checkEmail";
+import checkURL from "../functions/checkURL";
+import ErrorMessage from "../components/ErrorMessage";
 
 const EditProfilePage = (props) => {
   const [profileData, setProfileData] = useState({
@@ -13,7 +17,16 @@ const EditProfilePage = (props) => {
     email: false,
     photo: false,
   });
+  const [originalData, setOriginalData] = useState({
+    name: '',
+    email: '',
+    photo: '',
+  })
   const [newDetail, setNewDetail] = useState("");
+  const [errorAlert, setErrorAlert] = useState({
+    text: '',
+    open: false,
+  })
   const navigate = useNavigate();
 
   const loadProfileData = async () => {
@@ -21,6 +34,11 @@ const EditProfilePage = (props) => {
     await props.userRef.get().then((doc) => {
       data = doc.data();
       setProfileData({
+        name: data.name,
+        email: data.email,
+        photo: data.photoURL,
+      });
+      setOriginalData({
         name: data.name,
         email: data.email,
         photo: data.photoURL,
@@ -57,29 +75,84 @@ const EditProfilePage = (props) => {
   };
 
   const saveDetail = (property) => {
+
     setEditor({
       name: false,
       email: false,
       photo: false,
     });
 
+    if (newDetail === '') {
+      return;
+    }
+
     switch (property) {
       case "name":
+        if (newDetail.length > 20) {
+          setErrorAlert({
+            open: true,
+            text: 'We can only store up to 20 characters for a name.'
+          })
+          return;
+        }
         setProfileData({
           ...profileData,
           name: newDetail,
         });
+        setErrorAlert({
+          open: false,
+          text: '',
+        })
         break;
       case "email":
-        setProfileData({
-          ...profileData,
-          email: newDetail,
-        });
+        switch (checkEmail(newDetail)) {
+          case '@':
+            setErrorAlert({
+              open: true,
+              text: 'You must have the symbol "@" in your email.'
+            })
+            return;
+          case '.':
+            setErrorAlert({
+              open: true,
+              text: "Your email must contain a '.'",
+            })
+            return;
+          case 'length':
+            setErrorAlert({
+              open: true,
+              text: 'Your email can only be 30 characters long.',
+            })
+            return;
+          case 'ok':
+            setProfileData({
+              ...profileData,
+              email: newDetail,
+            });
+            setErrorAlert({
+              open: false,
+              text: '',
+            });
+            break;
+          default:
+            break;
+        }
         break;
       case "photo":
+        if (!checkURL(newDetail)) {
+          setErrorAlert({
+            open: true,
+            text: 'Please use a valid image URL of file type png, jpg, jpeg, or gif.',
+          })
+          return;
+        }
         setProfileData({
           ...profileData,
           photo: newDetail,
+        });
+        setErrorAlert({
+          open: false,
+          text: '',
         });
         break;
       default:
@@ -89,6 +162,18 @@ const EditProfilePage = (props) => {
   };
 
   const saveChanges = async () => {
+
+    if (
+      originalData.name === profileData.name &&
+      originalData.email === profileData.email && 
+      originalData.photo === profileData.photo
+      ) {
+      setErrorAlert({
+        open: true,
+        text: 'You cannot save without making any changes.',
+      });
+      return;
+    }
     await EDIT_PROFILE(
       props.userRef,
       profileData.name,
@@ -116,7 +201,7 @@ const EditProfilePage = (props) => {
       {profileData.name !== "" ? (
         <div className="profile-data-form">
           <div className="profile-item">
-            Name:
+          <div className='profile-editor-detail-header'>Name:</div>
             {!editor.name ? (
               <p className="profile-item-text">{profileData.name}</p>
             ) : (
@@ -151,7 +236,7 @@ const EditProfilePage = (props) => {
             )}
           </div>
           <div className="profile-item">
-            Email:
+          <div className='profile-editor-detail-header'>Email:</div>
             {!editor.email ? (
               <p className="profile-item-text">{profileData.email}</p>
             ) : (
@@ -186,9 +271,9 @@ const EditProfilePage = (props) => {
             )}
           </div>
           <div className="profile-item">
-            Profile Picture URL:
+            <div className='profile-editor-detail-header'>Profile Picture URL:</div>
             {!editor.photo ? (
-              <p className="profile-item-text">{profileData.photo}</p>
+              <div className='profile-item-text'>{profileData.photo}</div>
             ) : (
               <input
                 className="profile-detail-input"
@@ -228,6 +313,9 @@ const EditProfilePage = (props) => {
           </button>
         </div>
       ) : null}
+      {errorAlert.open ?
+        <ErrorMessage text={errorAlert.text} />
+      : null}
     </div>
   );
 };

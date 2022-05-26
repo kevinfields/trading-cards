@@ -4,7 +4,9 @@ export default async function ADD_BATTLE(
   card1Id,
   player2Id,
   card2Id,
-  victor
+  victor,
+  rounds,
+  date
 ) {
   await battleRef.add({
     challenged: player2Id,
@@ -12,5 +14,7 @@ export default async function ADD_BATTLE(
     challengedCard: card2Id,
     challengerCard: card1Id,
     victor: victor,
+    rounds: rounds,
+    timestamp: date,
   });
 }

@@ -3,6 +3,7 @@ import Battler from "../components/Battler";
 import CardChoice from "../components/CardChoice";
 import HitSplat from "../components/HitSplat";
 import LoadingScreen from "../components/LoadingScreen";
+import calculateHeal from "../functions/calculateHeal";
 import calculateHit from "../functions/calculateHit";
 import ADD_BATTLE from "../reducers/ADD_BATTLE";
 import ADD_LOSS from "../reducers/ADD_LOSS";
@@ -15,22 +16,37 @@ const ComputerBattlePage = (props) => {
   const [choices, setChoices] = useState([]);
   const [attacker, setAttacker] = useState({
     health: 1,
-    strength: 0,
-    accuracy: 0,
-    defense: 0,
+    strength: 1,
+    accuracy: 1,
+    defense: 1,
   });
+  const [attackerMax, setAttackerMax] = useState({
+    health: 1,
+    strength: 1,
+    accuracy: 1,
+    defense: 1,
+  })
   const [defender, setDefender] = useState({
     health: props.defenderCard.health,
     strength: props.defenderCard.strength,
     accuracy: props.defenderCard.accuracy,
     defense: props.defenderCard.defense,
   });
+
+  const [defenderMax, setDefenderMax] = useState({
+    health: props.defenderCard.health,
+    strength: props.defenderCard.strength,
+    accuracy: props.defenderCard.accuracy,
+    defense: props.defenderCard.defense,
+  });
+
   const [position, setPosition] = useState({
     attackerX: 20,
     attackerY: 20,
     defenderX: 70,
     defenderY: 70,
   });
+
   const [positionChange, setPositionChange] = useState("");
   const [allow, setAllow] = useState(false);
   const [timeoutId, setTimeoutId] = useState("");
@@ -93,6 +109,7 @@ const ComputerBattlePage = (props) => {
       await allCardsRef
         .doc(choices[i])
         .get()
+        // eslint-disable-next-line no-loop-func
         .then((doc) => {
           objects.push({
             id: choices[i],
@@ -146,12 +163,20 @@ const ComputerBattlePage = (props) => {
         data = doc.data();
       })
       .then(() => {
+
         setAttacker({
           health: data.health,
           strength: data.strength,
           accuracy: data.accuracy,
           defense: data.defense,
         });
+        setAttackerMax({
+          health: data.health,
+          strength: data.strength,
+          accuracy: data.accuracy,
+          defense: data.defense,
+        });
+
         setAllow(true);
         setChoices([]);
         setRound(1);
@@ -163,6 +188,7 @@ const ComputerBattlePage = (props) => {
     if (!allow) {
       return;
     }
+    let newHealth = -1;
     clearTimeout(splatTimeoutId);
     setAllow(false);
     let hit = calculateHit(
@@ -171,10 +197,6 @@ const ComputerBattlePage = (props) => {
       defender.defense,
       defender.accuracy
     );
-    setHitSplat({
-      damage: hit,
-      player: "computer",
-    });
     let rally = calculateHit(
       defender.strength,
       defender.accuracy,
@@ -187,6 +209,10 @@ const ComputerBattlePage = (props) => {
           ...defender,
           health: defender.health - hit,
         });
+        setHitSplat({
+          damage: hit,
+          player: "computer",
+        });
         break;
       case "stab":
         setDefender({
@@ -194,12 +220,27 @@ const ComputerBattlePage = (props) => {
           health: defender.health - Math.floor(hit / 2),
           accuracy: defender.accuracy - Math.floor(hit / 2),
         });
+        setHitSplat({
+          damage: hit,
+          player: "computer",
+        });
         break;
       case "crush":
         setDefender({
           ...defender,
           health: defender.health - Math.floor(hit / 2),
           strength: defender.strength - Math.floor(hit / 2),
+        });
+        setHitSplat({
+          damage: hit,
+          player: "computer",
+        });
+        break;
+      case 'heal':
+        newHealth = calculateHeal(attacker.health, attackerMax.health)
+        setAttacker({
+          ...attacker,
+          health: newHealth,
         });
         break;
       default:
@@ -213,7 +254,7 @@ const ComputerBattlePage = (props) => {
         });
         setAttacker({
           ...attacker,
-          health: attacker.health - rally,
+          health: (newHealth === -1 ? attacker.health - rally : newHealth - rally),
         });
         setAllow(true);
         setRound(round + 1);
@@ -235,6 +276,7 @@ const ComputerBattlePage = (props) => {
   }, [hitSplat]);
 
   const restartGame = () => {
+    setRound(0);
     setAllow(false);
     setDefender({
       health: props.defenderCard.health,
@@ -244,9 +286,9 @@ const ComputerBattlePage = (props) => {
     });
     setAttacker({
       health: 1,
-      strength: 0,
-      accuracy: 0,
-      defense: 0,
+      strength: 1,
+      accuracy: 1,
+      defense: 1,
     });
     setCardId("");
     setCardRef("");
@@ -255,6 +297,12 @@ const ComputerBattlePage = (props) => {
       player: "",
     });
     dummy.current.focus();
+    setPosition({
+      attackerX: 20,
+      attackerY: 20,
+      defenderX: 70,
+      defenderY: 70,
+    })
     chooseCard();
   };
 
@@ -269,7 +317,9 @@ const ComputerBattlePage = (props) => {
         cardId,
         "computer",
         props.computerCardId,
-        "computer"
+        "computer",
+        round,
+        new Date(),
       );
       alert("Sorry, you have lost");
       restartGame();
@@ -284,7 +334,9 @@ const ComputerBattlePage = (props) => {
         cardId,
         "computer",
         props.computerCardId,
-        props.user.uid
+        props.user.uid,
+        round,
+        new Date(),
       );
       alert("Congratulations, you win!");
       restartGame();
@@ -323,6 +375,7 @@ const ComputerBattlePage = (props) => {
               <button onClick={() => newRound("slash")}>Slash</button>
               <button onClick={() => newRound("stab")}>Stab</button>
               <button onClick={() => newRound("crush")}>Crush</button>
+              <button onClick={() => newRound('heal')}>Heal</button>
             </>
           ) : null}
         </div>

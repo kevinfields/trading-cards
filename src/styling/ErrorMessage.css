@@ -1,0 +1,22 @@
+.error-message {
+  width: 20vw;
+  height: 25vh;
+  border: 2px solid red;
+  border-radius: 5px;
+  position: fixed;
+  left: 45vw;
+  top: 55vh;
+}
+
+.error-header {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+.error-text {
+  line-height: 5vh;
+  font-size: 3vh;
+  padding: 1vw;
+  margin-top: -3vh;
+}

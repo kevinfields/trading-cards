@@ -23,10 +23,6 @@ const MakeCardPage = (props) => {
   const [remainingStats, setRemainingStats] = useState(0);
 
   const uploadCard = async () => {
-    if (remainingStats !== 0) {
-      alert("You have not spent all of your points!");
-      return;
-    }
 
     if (stats.name === "") {
       alert("You must name your character!");
@@ -44,7 +40,7 @@ const MakeCardPage = (props) => {
       defeats: [],
       totalBattles: [],
     };
-    await MAKE_CARD(cardObject, userRef, cardsRef).then(() => {
+    await MAKE_CARD(cardObject, userRef, cardsRef, getTotalStats(cardObject)).then(() => {
       props.nav("/my-cards");
     });
   };
