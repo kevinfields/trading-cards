@@ -31,3 +31,18 @@ ex:
   defense bonus: random number between 0 and baseBlock -> i.e. 4
 
   totalHit = totalBaseHit + (hitBonus - defenseBonus)
+
+
+
+Challenges should work like this:
+
+  Player submits a challenge to another player. They can submit to the player directly, or 
+  can challenge a card directly. Either way, the player being challenged should be able to accept
+  the challenge or decline it. If the player is challenged directly, they should choose one of their
+  cards to play, which then sends a request back to the original player who created the challenge,
+  asking them if they accept the challenge between their original chosen card or not. If not, they 
+  should be allowed to rechallenge, which would then trigger another request to the user originally
+  being challenged. This should go back and forth until both users agree on a match, or one user 
+  declines the match entirely.
+
+  
