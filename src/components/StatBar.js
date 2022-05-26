@@ -8,7 +8,7 @@ const StatBar = (props) => {
   };
 
   return (
-    <div className="single-stat-bar" onClick={() => changeForm()}>
+    <div className="single-stat-bar" onClick={props.blockValueForm ? null : () => changeForm()}>
       <div className="stat-title">{props.title}: </div>
       {bar ? (
         <div

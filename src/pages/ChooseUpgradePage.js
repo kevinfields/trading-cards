@@ -20,6 +20,7 @@ const ChooseUpgradePage = (props) => {
       await props.cardsRef
         .doc(cards[i])
         .get()
+        // eslint-disable-next-line no-loop-func
         .then((doc) => {
           objects.push({
             id: cards[i],
@@ -45,7 +46,6 @@ const ChooseUpgradePage = (props) => {
         Choose a card to upgrade. You have {balance !== -1 ? balance : "_"} xp
         to add.
       </h3>
-
       {cardList.length > 0 ? (
         <div className="upgrade-card-choice">
           {cardList.map((item) =>
@@ -55,11 +55,11 @@ const ChooseUpgradePage = (props) => {
                 key={item.id}
                 className="upgrade-option"
               >
-                <Card card={item.data} />
+                <Card card={item.data} blockValueForm={true} />
               </div>
             ) : (
               <div key={item.id} className="non-upgrade-option">
-                <Card card={item.data} />
+                <Card card={item.data} blockValueForm={true} />
               </div>
             )
           )}

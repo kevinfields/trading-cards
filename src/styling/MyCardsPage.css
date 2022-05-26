@@ -5,3 +5,16 @@
   height: 85vh;
   overflow-y: scroll;
 }
+
+.make-card-prompt {
+  position: fixed;
+  left: 45vw;
+  width: 25vw;
+  top: 15vh;
+}
+
+.make-card-alert {
+  font-size: 20pt;
+  color: blue;
+  font-weight: bold;
+}

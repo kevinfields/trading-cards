@@ -1,24 +1,26 @@
-export default async function ADD_WIN(userRef, cardRef, opponentCardId) {
-  let xpValue = 10;
+export default async function ADD_WIN(userRef, cardRef, opponentCardId, rounds) {
+  let xpValue = 2;
 
   switch (opponentCardId) {
     case "computerBeginner":
-      xpValue = 5;
+      xpValue = 1;
       break;
     case "computerNovice":
       break;
     case "computerProficient":
-      xpValue = 15;
+      xpValue = 3;
       break;
     case "computerExpert":
-      xpValue = 20;
+      xpValue = 4;
       break;
     case "computerMaster":
-      xpValue = 25;
+      xpValue = 5;
       break;
     default:
       break;
   }
+
+  xpValue = xpValue * Math.ceil(rounds / 5);
 
   let data;
   await userRef

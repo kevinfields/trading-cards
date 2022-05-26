@@ -1,24 +1,5 @@
 export default async function ADD_LOSS(userRef, cardRef, opponentCardId) {
-  let xpValue = 1;
-
-  switch (opponentCardId) {
-    case "computerBeginner":
-      xpValue = 0;
-      break;
-    case "computerNovice":
-      break;
-    case "computerProficient":
-      xpValue = 2;
-      break;
-    case "computerExpert":
-      xpValue = 3;
-      break;
-    case "computerMaster":
-      xpValue = 4;
-      break;
-    default:
-      break;
-  }
+  
   let data;
   await userRef
     .get()

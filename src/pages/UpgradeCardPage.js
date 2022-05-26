@@ -52,6 +52,11 @@ const UpgradeCardPage = (props) => {
   };
 
   const upgradeStat = (stat, change) => {
+
+    if (balance <= 0 && change > 0) {
+      return;
+    }
+
     switch (stat) {
       case "health":
         if (newStats.health >= 100 && Number(change) > 0) {

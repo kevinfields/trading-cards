@@ -310,7 +310,7 @@ const ComputerBattlePage = (props) => {
     if (attacker.health <= 0) {
       clearTimeout(timeoutId);
       ADD_LOSS(userRef, cardRef, props.computerCardId);
-      ADD_WIN(opponentRef, opponentCardRef, cardId);
+      ADD_WIN(opponentRef, opponentCardRef, cardId, round);
       ADD_BATTLE(
         battleRef,
         props.user.uid,
@@ -321,12 +321,12 @@ const ComputerBattlePage = (props) => {
         round,
         new Date(),
       );
-      alert("Sorry, you have lost");
+      alert(`Sorry, you have lost. You earned an xp point anyways.`);
       restartGame();
     }
     if (defender.health <= 0) {
       clearTimeout(timeoutId);
-      ADD_WIN(userRef, cardRef, props.computerCardId);
+      ADD_WIN(userRef, cardRef, props.computerCardId, round);
       ADD_LOSS(opponentRef, opponentCardRef, cardId);
       ADD_BATTLE(
         battleRef,
@@ -338,7 +338,10 @@ const ComputerBattlePage = (props) => {
         round,
         new Date(),
       );
-      alert("Congratulations, you win!");
+      const textOptions = ['computerBeginner', 'computerNovice', 'computerProficient', 'computerExpert', 'computerMaster'];
+      const pointValue = textOptions.indexOf(props.computerCardId) + 1;
+      const finalValue = pointValue * Math.ceil(round / 5);
+      alert(`Congratulations, you win! You earned ${finalValue} xp points for winning against ${props.computerCardId} in ${round} rounds.`);
       restartGame();
     }
   }, [attacker, defender]);

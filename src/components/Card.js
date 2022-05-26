@@ -4,6 +4,12 @@ import "../styling/Card.css";
 import StatBar from "./StatBar";
 
 const Card = (props) => {
+
+  let block = false;
+  if (props.blockValueForm) {
+    block = true;
+  }
+
   return (
     <div className="card">
       <p className="card-name">{props.card.name}</p>
@@ -12,6 +18,7 @@ const Card = (props) => {
           value={props.card.health}
           width={getBarWidth(props.card.health)}
           title="Health"
+          blockValueForm={block}
         />
       </p>
       <p className="card-stat">
@@ -19,6 +26,7 @@ const Card = (props) => {
           value={props.card.strength}
           width={getBarWidth(props.card.strength)}
           title="Strength"
+          blockValueForm={block}
         />
       </p>
       <p className="card-stat">
@@ -26,6 +34,7 @@ const Card = (props) => {
           value={props.card.defense}
           width={getBarWidth(props.card.defense)}
           title="Defense"
+          blockValueForm={block}
         />
       </p>
       <p className="card-stat">
@@ -33,6 +42,7 @@ const Card = (props) => {
           value={props.card.accuracy}
           width={getBarWidth(props.card.accuracy)}
           title="Accuracy"
+          blockValueForm={block}
         />
       </p>
       <div className='win-loss-ratio'>

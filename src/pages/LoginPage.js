@@ -4,6 +4,7 @@ import "firebase/compat/firestore";
 import "firebase/compat/auth";
 
 const LoginPage = (props) => {
+
   const makeAccountIfNone = async (user) => {
     let data;
     await props.usersRef
@@ -25,6 +26,8 @@ const LoginPage = (props) => {
         xpTotal: 0,
         xpRemaining: 0,
         cards: [],
+        wins: 0,
+        losses: 0,
       });
     }
   };

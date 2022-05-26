@@ -32,13 +32,16 @@ const MakeCardPage = (props) => {
       return;
     }
     let cardObject = {
-      ...stats,
+      health: Number(stats.health),
+      strength: Number(stats.strength),
+      accuracy: Number(stats.accuracy),
+      defense: Number(stats.defense),
       ownerId: props.user.uid,
       creatorId: props.user.uid,
       ownerList: [props.user.uid],
       victories: [],
       defeats: [],
-      totalBattles: [],
+      totalBattles: 0,
     };
     await MAKE_CARD(cardObject, userRef, cardsRef, getTotalStats(cardObject)).then(() => {
       props.nav("/my-cards");
