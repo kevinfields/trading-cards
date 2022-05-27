@@ -29,6 +29,7 @@ const AllUsersPage = (props) => {
           users.map((item) => (
             <UserTab
               user={item}
+              key={item.id}
               onLookupCards={() => props.lookupUserCards(item.id)}
               onLookupUser={() => props.lookupUser(item.id)}
             />

@@ -26,7 +26,7 @@
   margin: 0px;
 }
 
-.upgrade-buttons {
+.upgrade-buttons-one {
   display: flex;
   flex-direction: row;
   width: fit-content;
@@ -37,7 +37,18 @@
   gap: 1vw;
 }
 
-.downgrade-buttons {
+.upgrade-buttons-five {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  left: 62.5vw;
+  top: 13vh;
+  gap: 1vw;
+}
+
+.downgrade-buttons-one {
   display: flex;
   flex-direction: row;
   width: fit-content;
@@ -45,6 +56,17 @@
   position: fixed;
   left: 62.5vw;
   top: 75vh;
+  gap: 1vw;
+}
+
+.downgrade-buttons-five {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  left: 62.5vw;
+  top: 82vh;
   gap: 1vw;
 }
 

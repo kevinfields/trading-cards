@@ -18,6 +18,8 @@ import UpgradeCardPage from "./pages/UpgradeCardPage";
 import ProfilePage from "./pages/ProfilePage";
 import OtherProfilePage from "./pages/OtherProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
+import MakeTradePage from "./pages/MakeTradePage";
+import TradeRequests from "./pages/TradeRequests";
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -73,6 +75,10 @@ function App() {
   const [cardsId, setCardsId] = useState("");
   const [lookupId, setLookupId] = useState("");
   const [upgradeId, setUpgradeId] = useState("-");
+  const [tradeRequest, setTradeRequest] = useState({
+    requesteeId: '',
+    cardId: '',
+  })
 
   const lookupUserCards = (id) => {
     setCardsId(id);
@@ -84,6 +90,13 @@ function App() {
 
   const upgradeCard = (id) => {
     setUpgradeId(id);
+  };
+
+  const requestTrade = (cardId, requesteeId) => {
+    setTradeRequest({
+      requesteeId: requesteeId,
+      cardId: cardId,
+    });
   };
 
   useEffect(() => {
@@ -103,6 +116,12 @@ function App() {
       navigate(`/profile/${lookupId}`);
     }
   }, [lookupId]);
+
+  useEffect(() => {
+    if (tradeRequest.cardId !== '') {
+      navigate(`/trade-request/${tradeRequest.cardId}`);
+    }
+  }, [tradeRequest])
 
   return (
     <div className="App">
@@ -142,6 +161,7 @@ function App() {
                   user={user}
                   lookupUserCards={(id) => lookupUserCards(id)}
                   lookupUser={(id) => lookupUser(id)}
+                  
                 />
               }
             />
@@ -156,7 +176,11 @@ function App() {
             <Route
               path={`/profile/${cardsId}/cards`}
               element={
-                <OtherCardsPage firestore={firestore} profileId={cardsId} />
+                <OtherCardsPage 
+                  firestore={firestore} 
+                  profileId={cardsId}
+                  requestCardTrade={(id) => requestTrade(id, cardsId)} 
+                />
               }
             />
             <Route path="/computer-battle" element={<ChooseBattlePage />} />
@@ -255,11 +279,35 @@ function App() {
                 }
               />
             ) : null}
+            { tradeRequest.cardId !== '' ?
+            <Route
+              path={`/trade-request/${tradeRequest.cardId}`}
+              element={
+                <MakeTradePage 
+                  userRef={firestore.collection('users').doc(user.uid)}
+                  userId={user.uid}
+                  requesteeId={tradeRequest.requesteeId}
+                  requesteeRef={firestore.collection('users').doc(tradeRequest.requesteeId)}
+                  requestedCard={tradeRequest.cardId}
+                  cardsRef={firestore.collection('cards')}
+                />
+              }
+            />
+            : null}
             <Route
               path="/edit-profile"
               element={
                 <EditProfilePage
                   userRef={firestore.collection("users").doc(user.uid)}
+                />
+              }
+            />
+            <Route
+              path='/trade-requests-list'
+              element={
+                <TradeRequests
+                  userId={user.uid}
+                  userRef={firestore.collection('users').doc(user.uid)}
                 />
               }
             />
@@ -272,6 +320,7 @@ function App() {
             <Link to="/">Home</Link>
             <Link to="/my-profile">My Profile</Link>
             <Link to="/my-cards">My Cards</Link>
+            <Link to='/trade-requests-list'>Trade Requests</Link>
             <Link to="/make-card">Make Card</Link>
             <Link to="/upgrade-card">Upgrade a Card</Link>
             <Link to="/computer-battle">Battle Computer</Link>

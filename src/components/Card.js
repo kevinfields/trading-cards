@@ -53,6 +53,20 @@ const Card = (props) => {
           Losses: {props.card.defeats ? props.card.defeats.length : 0}
         </p>
       </div>
+      {
+      props.requestTrade ? 
+        <div className='request-trade-button' onClick={() => props.requestTrade()}>
+          Request to trade for this card.
+        </div>
+        : null
+      }
+      {
+      props.onOffer ?
+        <div className='offer-trade-button' onClick={() => props.onOffer()}>
+          Offer to trade this card.
+        </div>
+        : null
+      }
     </div>
   );
 };

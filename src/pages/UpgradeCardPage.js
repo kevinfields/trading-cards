@@ -59,21 +59,22 @@ const UpgradeCardPage = (props) => {
 
     switch (stat) {
       case "health":
-        if (newStats.health >= 100 && Number(change) > 0) {
+        if (Number(newStats.health) + Number(change) < minStats.health) {
           return;
-        } else if (Number(newStats.health) + Number(change) < minStats.health) {
-          return;
-        } else {
-          setNewStats({
-            ...newStats,
-            health: Number(newStats.health) + Number(change),
-          });
-          setBalance(balance - Number(change));
-          setCost(cost + Number(change));
         }
+        if (Number(newStats.health) + Number(change) > 100) {
+          return;
+        }
+        setNewStats({
+          ...newStats,
+          health: Number(newStats.health) + Number(change),
+        });
+        setBalance(balance - Number(change));
+        setCost(cost + Number(change));
+
         break;
       case "strength":
-        if (newStats.strength >= 100 && Number(change) > 0) {
+        if (newStats.strength + Number(change) > 100) {
           return;
         } else if (
           Number(newStats.strength) + Number(change) <
@@ -90,7 +91,7 @@ const UpgradeCardPage = (props) => {
         }
         break;
       case "accuracy":
-        if (newStats.accuracy >= 100 && Number(change) > 0) {
+        if (newStats.accuracy + Number(change) > 100) {
           return;
         } else if (
           Number(newStats.accuracy) + Number(change) <
@@ -107,7 +108,7 @@ const UpgradeCardPage = (props) => {
         }
         break;
       case "defense":
-        if (newStats.defense >= 100 && Number(change) > 0) {
+        if (newStats.defense + Number(change) > 100) {
           return;
         } else if (
           Number(newStats.defense) + Number(change) <
@@ -169,7 +170,7 @@ const UpgradeCardPage = (props) => {
         <p className="card-upgrade-stat">Accuracy: {newStats.accuracy}</p>
         <p className="card-upgrade-stat">Defense: {newStats.defense}</p>
       </div>
-      <div className="upgrade-buttons">
+      <div className="upgrade-buttons-one">
         <button className="upgrader" onClick={() => upgradeStat("health", 1)}>
           +1 Health
         </button>
@@ -183,7 +184,21 @@ const UpgradeCardPage = (props) => {
           +1 Defense
         </button>
       </div>
-      <div className="downgrade-buttons">
+      <div className="upgrade-buttons-five">
+        <button className="upgrader" onClick={() => upgradeStat("health", 5)}>
+          +5 Health
+        </button>
+        <button className="upgrader" onClick={() => upgradeStat("strength", 5)}>
+          +5 Strength
+        </button>
+        <button className="upgrader" onClick={() => upgradeStat("accuracy", 5)}>
+          +5 Accuracy
+        </button>
+        <button className="upgrader" onClick={() => upgradeStat("defense", 5)}>
+          +5 Defense
+        </button>
+      </div>
+      <div className="downgrade-buttons-one">
         <button
           className="downgrader"
           onClick={() => upgradeStat("health", -1)}
@@ -210,6 +225,32 @@ const UpgradeCardPage = (props) => {
         </button>
         <button className="reset-button" onClick={() => resetStats()}>
           Reset
+        </button>
+      </div>
+      <div className="downgrade-buttons-five">
+        <button
+          className="downgrader"
+          onClick={() => upgradeStat("health", -5)}
+        >
+          -5 Health
+        </button>
+        <button
+          className="downgrader"
+          onClick={() => upgradeStat("strength", -5)}
+        >
+          -5 Strength
+        </button>
+        <button
+          className="downgrader"
+          onClick={() => upgradeStat("accuracy", -5)}
+        >
+          -5 Accuracy
+        </button>
+        <button
+          className="downgrader"
+          onClick={() => upgradeStat("defense", -5)}
+        >
+          -5 Defense
         </button>
       </div>
       <div className="make-purchase-button" onClick={() => makePurchase()}>

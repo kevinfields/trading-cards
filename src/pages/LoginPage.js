@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
+import ADD_SIGN_IN from "../reducers/ADD_SIGN_IN";
 
 const LoginPage = (props) => {
 
@@ -17,6 +18,7 @@ const LoginPage = (props) => {
     if (data !== undefined) {
       return;
     } else {
+      const loginTime = new Date();
       await props.usersRef.doc(user.uid).set({
         ...data,
         name: user.displayName,
@@ -28,6 +30,7 @@ const LoginPage = (props) => {
         cards: [],
         wins: 0,
         losses: 0,
+        lastLogin: loginTime,
       });
     }
   };
@@ -36,6 +39,7 @@ const LoginPage = (props) => {
     const provider = new firebase.auth.GoogleAuthProvider();
     props.auth.signInWithPopup(provider).then((data) => {
       makeAccountIfNone(data.user);
+      ADD_SIGN_IN(props.usersRef.doc(data.user.uid), new Date());
       props.nav('/');
     });
   };
