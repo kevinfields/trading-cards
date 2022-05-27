@@ -43,7 +43,7 @@ const MakeTradePage = (props) => {
   const setupOffer = async (cardId, cardName) => {
     if (window.confirm(`Are you sure you want to offer ${cardName} for ${requestedCard.name}? This offer cannot be revoked.`)) {
       const time = new Date();
-      await MAKE_TRADE_REQUEST(props.userRef, props.requesteeRef, cardId, props.requestedCard, time).then(() => {
+      await MAKE_TRADE_REQUEST(props.userRef, props.requesteeRef, cardId, props.requestedCard, time, props.cardsRef).then(() => {
         navigate('/my-profile');
       })
     }

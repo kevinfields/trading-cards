@@ -36,6 +36,7 @@ const MakeCardPage = (props) => {
       strength: Number(stats.strength),
       accuracy: Number(stats.accuracy),
       defense: Number(stats.defense),
+      name: stats.name,
       ownerId: props.user.uid,
       creatorId: props.user.uid,
       ownerList: [props.user.uid],

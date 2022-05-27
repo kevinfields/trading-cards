@@ -4,6 +4,7 @@ import '../styling/DecideTradePage.css';
 import Card from '../components/Card';
 import LoadingScreen from '../components/LoadingScreen';
 import ACCEPT_TRADE from '../reducers/ACCEPT_TRADE';
+import DECLINE_TRADE from '../reducers/DECLINE_TRADE';
 
 const DecideTradePage = (props) => {
 
@@ -65,7 +66,12 @@ const DecideTradePage = (props) => {
       }
     } else {
       if (window.confirm('Are you sure? You may request this trade again in the future.')) {
-        console.log('aw ok');
+        await DECLINE_TRADE(
+          props.tradeRef, 
+          props.traderRef.collection('trade-offers').doc(twinRef)
+        ).then(() => {
+          navigate('/trade-requests-list');
+        })
       } else {
         return;
       }

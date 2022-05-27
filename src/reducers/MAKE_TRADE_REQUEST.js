@@ -1,5 +1,17 @@
-export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOfferId, cardRequestId, date) {
+import getTotalStats from "../functions/getTotalStats";
+
+export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOfferId, cardRequestId, date, cardsRef) {
   
+  let requestedCard = {
+    name: '',
+    statTotal: '',
+  };
+
+  let offeredCard = {
+    name: '',
+    statTotal: '',
+  };
+
   let userData;
   await userRef.get().then((doc) => {
     userData = {
@@ -16,13 +28,31 @@ export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOffe
     }
   });
 
+  await cardsRef.doc(cardRequestId).get().then(doc => {
+    requestedCard = {
+      name: doc.data().name,
+      totalStats: getTotalStats(doc.data()),
+    }
+  });
+
+  await cardsRef.doc(cardOfferId).get().then(doc => {
+    offeredCard = {
+      name: doc.data().name,
+      totalStats: getTotalStats(doc.data()),
+    }
+  })
+
   let dataObject = {
     accepted: false,
     declined: false,
     offeredCard: cardOfferId,
+    offeredCardName: offeredCard.name,
+    offeredCardStats: Number(offeredCard.totalStats),
     offeror: true,
     requestDate: date,
     requestedCard: cardRequestId,
+    requestedCardName: requestedCard.name,
+    requestedCardStats: Number(requestedCard.totalStats),
     tradingWith: requesteeData.id, 
     tradingWithName: requesteeData.data.name,
     userName: userData.data.name,
@@ -35,9 +65,13 @@ export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOffe
       accepted: false,
       declined: false,
       offeredCard: cardOfferId,
+      offeredCardName: offeredCard.name,
+      offeredCardStats: Number(offeredCard.totalStats),
       offeror: false,
       requestDate: date,
       requestedCard: cardRequestId,
+      requestedCardName: requestedCard.name,
+      requestedCardStats: Number(requestedCard.totalStats),
       tradingWith: userData.id,
       tradingWithName: userData.data.name,
       userName: requesteeData.data.name,
