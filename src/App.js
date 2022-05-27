@@ -20,6 +20,7 @@ import OtherProfilePage from "./pages/OtherProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
 import MakeTradePage from "./pages/MakeTradePage";
 import TradeRequests from "./pages/TradeRequests";
+import DecideTradePage from "./pages/DecideTradePage";
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -78,7 +79,8 @@ function App() {
   const [tradeRequest, setTradeRequest] = useState({
     requesteeId: '',
     cardId: '',
-  })
+  });
+  const [viewedRequest, setViewedRequest] = useState({});
 
   const lookupUserCards = (id) => {
     setCardsId(id);
@@ -98,6 +100,10 @@ function App() {
       cardId: cardId,
     });
   };
+
+  const openTradeRequest = (item) => {
+    setViewedRequest(item);
+  }
 
   useEffect(() => {
     if (cardsId !== "") {
@@ -121,7 +127,13 @@ function App() {
     if (tradeRequest.cardId !== '') {
       navigate(`/trade-request/${tradeRequest.cardId}`);
     }
-  }, [tradeRequest])
+  }, [tradeRequest]);
+
+  useEffect(() => {
+    if (viewedRequest.id) {
+      navigate(`/view-trade-request/${viewedRequest.id}`)
+    }
+  }, [viewedRequest])
 
   return (
     <div className="App">
@@ -308,9 +320,23 @@ function App() {
                 <TradeRequests
                   userId={user.uid}
                   userRef={firestore.collection('users').doc(user.uid)}
+                  openRequest={(item) => openTradeRequest(item)}
                 />
               }
             />
+            { viewedRequest.data ?
+            <Route
+              path={`/view-trade-request/${viewedRequest.id}`}
+              element={
+                <DecideTradePage
+                  cardsRef={firestore.collection('cards')}
+                  tradeRef={firestore.collection('users').doc(user.uid).collection('trade-offers').doc(viewedRequest.id)}
+                  userRef={firestore.collection('users').doc(user.uid)}
+                  traderRef={firestore.collection('users').doc(viewedRequest.data.tradingWith)}
+                />
+              }
+            />
+            : null}
           </>
         )}
       </Routes>

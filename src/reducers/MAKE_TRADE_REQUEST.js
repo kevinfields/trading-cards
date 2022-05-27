@@ -16,7 +16,7 @@ export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOffe
     }
   });
 
-  userRef.collection('trade-offers').add({
+  let dataObject = {
     accepted: false,
     declined: false,
     offeredCard: cardOfferId,
@@ -27,18 +27,27 @@ export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOffe
     tradingWithName: requesteeData.data.name,
     userName: userData.data.name,
     userId: userData.id,
-  });
+    twinDoc: '',
+  };
 
-  requesteeRef.collection('trade-offers').add({
-    accepted: false,
-    declined: false,
-    offeredCard: cardOfferId,
-    offeror: false,
-    requestDate: date,
-    requestedCard: cardRequestId,
-    tradingWith: userData.id,
-    tradingWithName: userData.data.name,
-    userName: requesteeData.data.name,
-    userId: requesteeData.id,
-  });
+  userRef.collection('trade-offers').add(dataObject).then((doc) => {
+    requesteeRef.collection('trade-offers').add({
+      accepted: false,
+      declined: false,
+      offeredCard: cardOfferId,
+      offeror: false,
+      requestDate: date,
+      requestedCard: cardRequestId,
+      tradingWith: userData.id,
+      tradingWithName: userData.data.name,
+      userName: requesteeData.data.name,
+      userId: requesteeData.id,
+      twinDoc: doc.id,
+    }).then((secondDoc) => {
+      userRef.collection('trade-offers').doc(doc.id).set({
+        ...dataObject,
+        twinDoc: secondDoc.id,
+      });
+    })
+  })
 }

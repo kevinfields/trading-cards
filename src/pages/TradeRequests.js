@@ -35,7 +35,10 @@ const TradeRequests = (props) => {
               offeredCard={item.data.offeredCard}
               requestee={item.data.offeror ? item.data.tradingWithName : item.data.userName}
               requestedCard={item.data.requestedCard}
+              requestedId={item.data.offeredCard}
               requestDate={item.requestDate}
+              card={item}
+              openRequest={() => props.openRequest(item)}
             />
           ))
           : null

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const TradeRequest = (props) => {
 
@@ -6,7 +6,7 @@ const TradeRequest = (props) => {
     <div className='trade-request'>
       <p className='trade-request-detail'>{props.offeror} ={'>'} {props.requestee}</p>
       <p className='trade-request-detail'>{props.offeredCard} {'<=>'} {props.requestedCard}</p>
-      <div className='view-trade'>Click here to view details</div>
+      <div className='view-trade' onClick={() => props.openRequest()}>Click here to view details</div>
     </div>
   )
 }
