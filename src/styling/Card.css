@@ -3,7 +3,7 @@
   border-radius: 5px;
   box-shadow: 2px 2px 2px 2px rgb(0, 0, 95);
   width: 14vw;
-  height: 37vh;
+  height: 38.5vh;
   margin: 1vw;
   padding: 1vh;
 }
@@ -62,4 +62,50 @@
   border: 1px solid black;
   margin-top: 2vh;
   padding: 0.5vh;
+}
+
+.request-trade-button {
+  width: 7vw;
+  height: 6vh;
+  margin-left: 3.5vw;
+  margin-right: 3.5vw;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  border-style: solid;
+  border-color: red;
+  border-width: 1px 3px 3px 1px;
+  color: red;
+  text-align: center;
+}
+
+.request-trade-button:hover {
+  cursor: pointer;
+  background-color: pink;
+}
+
+.request-trade-button:active {
+  border-width: 3px 1px 1px 3px;
+}
+
+.offer-trade-button {
+  width: 7vw;
+  height: 4vh;
+  margin-left: 3.5vw;
+  margin-right: 3.5vw;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  border-style: solid;
+  border-color: blue;
+  border-width: 1px 3px 3px 1px;
+  color: blue;
+  text-align: center;
+}
+
+.offer-trade-button:hover {
+  cursor: pointer;
+  background-color: lightblue;
+}
+
+.offer-trade-button:active {
+  border-width: 3px 1px 1px 3px;
 }

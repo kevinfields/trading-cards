@@ -56,14 +56,14 @@ const Card = (props) => {
       {
       props.requestTrade ? 
         <div className='request-trade-button' onClick={() => props.requestTrade()}>
-          Request to trade for this card.
+          REQUEST TRADE
         </div>
         : null
       }
       {
       props.onOffer ?
         <div className='offer-trade-button' onClick={() => props.onOffer()}>
-          Offer to trade this card.
+          OFFER
         </div>
         : null
       }

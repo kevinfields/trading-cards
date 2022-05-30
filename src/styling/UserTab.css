@@ -42,3 +42,12 @@
   margin: 0px;
   margin-left: 0.5vw;
 }
+
+
+.tab-image {
+  width: 7vw;
+  height: 7vw;
+  border: 1px solid black;
+  margin-top: -2vw;
+  margin-left: 0.5vh;
+}

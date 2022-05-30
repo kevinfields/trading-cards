@@ -28,6 +28,11 @@ const MakeCardPage = (props) => {
       alert("You must name your character!");
       return;
     }
+
+    if (stats.health <= 0) {
+      alert("You're character must have at least 1 health!");
+      return;
+    }
     if (!window.confirm("Are you sure? This action is final.")) {
       return;
     }

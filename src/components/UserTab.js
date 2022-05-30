@@ -14,6 +14,7 @@ const UserTab = (props) => {
       <p className="profile-link" onClick={() => props.onLookupUser()}>
         View Profile
       </p>
+      <img className='tab-image' src={props.user.photoURL} alt={props.user.name} />
     </div>
   );
 };

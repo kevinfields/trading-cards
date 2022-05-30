@@ -84,11 +84,19 @@ function App() {
   const [viewedOffer, setViewedOffer] = useState({});
 
   const lookupUserCards = (id) => {
-    setCardsId(id);
+    if (id === user.uid) {
+      navigate('my-cards');
+    } else {
+      setCardsId(id);
+    }
   };
 
   const lookupUser = (id) => {
-    setLookupId(id);
+    if (id === user.uid) {
+      navigate('/my-profile')
+    } else {
+      setLookupId(id);  
+    }
   };
 
   const upgradeCard = (id) => {
