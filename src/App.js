@@ -19,7 +19,7 @@ import ProfilePage from "./pages/ProfilePage";
 import OtherProfilePage from "./pages/OtherProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
 import MakeTradePage from "./pages/MakeTradePage";
-import TradeRequests from "./pages/TradeRequests";
+import TradeRequests from "./pages/TradeRequestsPage";
 import DecideTradePage from "./pages/DecideTradePage";
 
 firebase.initializeApp({
@@ -81,6 +81,7 @@ function App() {
     cardId: '',
   });
   const [viewedRequest, setViewedRequest] = useState({});
+  const [viewedOffer, setViewedOffer] = useState({});
 
   const lookupUserCards = (id) => {
     setCardsId(id);
@@ -103,6 +104,10 @@ function App() {
 
   const openTradeRequest = (item) => {
     setViewedRequest(item);
+  }
+
+  const openTradeOffer = (item) => {
+    setViewedOffer(item);
   }
 
   useEffect(() => {
@@ -131,9 +136,15 @@ function App() {
 
   useEffect(() => {
     if (viewedRequest.id) {
-      navigate(`/view-trade-request/${viewedRequest.id}`)
+      navigate(`/view-trade-request/${viewedRequest.id}`);
     }
   }, [viewedRequest])
+
+  useEffect(() => {
+    if (viewedOffer.id) {
+      navigate(`/view-trade-offer/${viewedOffer.id}`);
+    }
+  }, [viewedOffer])
 
   return (
     <div className="App">
@@ -321,6 +332,7 @@ function App() {
                   userId={user.uid}
                   userRef={firestore.collection('users').doc(user.uid)}
                   openRequest={(item) => openTradeRequest(item)}
+                  openOffer={(item) => openTradeOffer(item)}
                 />
               }
             />
@@ -333,6 +345,21 @@ function App() {
                   tradeRef={firestore.collection('users').doc(user.uid).collection('trade-offers').doc(viewedRequest.id)}
                   userRef={firestore.collection('users').doc(user.uid)}
                   traderRef={firestore.collection('users').doc(viewedRequest.data.tradingWith)}
+                  allowAccept={true}
+                />
+              }
+            />
+            : null}
+            { viewedOffer.data ?
+            <Route
+              path={`/view-trade-offer/${viewedOffer.id}`}
+              element={
+                <DecideTradePage
+                  cardsRef={firestore.collection('cards')}
+                  tradeRef={firestore.collection('users').doc(user.uid).collection('trade-offers').doc(viewedOffer.id)}
+                  userRef={firestore.collection('users').doc(user.uid)}
+                  traderRef={firestore.collection('users').doc(viewedOffer.data.tradingWith)}
+                  allowAccept={false}
                 />
               }
             />

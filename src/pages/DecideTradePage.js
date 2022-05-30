@@ -93,21 +93,25 @@ const DecideTradePage = (props) => {
     <div className='page'>
       { details.id ?
       <div className='trade-request-wrapper'>
-        <h3 className='trade-request-header'>Trade Request from {details.data.tradingWithName}</h3>
+        <h3 className='trade-request-header'>Trade Request from {props.allowAccept ? details.data.tradingWithName : details.data.userName}</h3>
         <div className='offer-screen'>
-          <p>You have been offered: </p>
+          <p>You have {props.allowAccept ? 'been' : null} offered: </p>
           { offeredCard.id ?
           <Card card={offeredCard.data} />
           : null}
         </div>
         <div className='request-screen'>
-          <p>In return, {details.data.tradingWithName} will receive: </p>
+          <p>In return, {props.allowAccept ? `${details.data.tradingWithName} will ` : 'you would '}receive: </p>
           {requestedCard.id ?
           <Card card={requestedCard.data} />
           : null }
         </div>
-        <button className='accept-trade-button' onClick={() => respond(true)}>Accept Trade</button>
-        <button className='decline-trade-button' onClick={() => respond(false)}>Decline Trade</button>
+        { props.allowAccept ?
+        <div className='trade-decision-buttons'>
+          <button className='accept-trade-button' onClick={() => respond(true)}>Accept Trade</button>
+          <button className='decline-trade-button' onClick={() => respond(false)}>Decline Trade</button>
+        </div>
+        : null }
       </div>
       : <LoadingScreen />
       }

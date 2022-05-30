@@ -20,6 +20,11 @@ export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOffe
     };
   });
 
+  if (!userData.data.cards.includes(cardOfferId)) {
+    alert('You do not own this card!');
+    return;
+  }
+
   let requesteeData;
   await requesteeRef.get().then(doc => {
     requesteeData = {
@@ -27,6 +32,11 @@ export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOffe
       id: doc.id,
     }
   });
+
+  if (!requesteeData.data.cards.includes(cardRequestId)) {
+    alert('The card you are requesting is not owned by this player!');
+    return;
+  }
 
   await cardsRef.doc(cardRequestId).get().then(doc => {
     requestedCard = {

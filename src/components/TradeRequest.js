@@ -8,7 +8,7 @@ const TradeRequest = (props) => {
       <p className='trade-request-detail'>{props.offeror} {'=>'} {props.requestee}</p>
       <p className='trade-request-detail'>{props.offeredCardName} {'<=>'} {props.requestedCardName}</p>
       <p className='trade-request-detail'>Stat Total: {props.offeredCardStats} {'<=>'} Stat Total: {props.requestedCardStats}</p>
-      <button className='view-trade' onClick={() => props.openRequest()}>Click here to view details</button>
+      <button className='view-trade' onClick={props.openRequest ? () => props.openRequest() : () => props.openOffer()}>Click here to view details</button>
     </div>
   )
 }

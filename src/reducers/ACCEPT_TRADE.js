@@ -32,13 +32,6 @@ export default async function ACCEPT_TRADE(tradeRef, twinRef, userRef, traderRef
     };
   });
 
-  let newCards = userData.data.cards.filter(cardId => cardId !== tradeData.data.requestedCard);
-  newCards.push(tradeData.data.offeredCard);
-  userRef.set({
-    ...userData.data,
-    cards: newCards,
-  });
-
   let traderData;
   await traderRef.get().then(doc => {
     traderData = {
@@ -46,6 +39,26 @@ export default async function ACCEPT_TRADE(tradeRef, twinRef, userRef, traderRef
       data: doc.data(),
     }
   });
+
+  if (!traderData.data.cards.includes(tradeData.data.offeredCard)) {
+    alert('This player no longer owns this card!');
+    return;
+  }
+
+  if (!userData.data.cards.includes(tradeData.data.requestedCard)) {
+    alert('You no longer own this card!');
+    return;
+  }
+
+  let newCards = userData.data.cards.filter(cardId => cardId !== tradeData.data.requestedCard);
+  newCards.push(tradeData.data.offeredCard);
+
+  userRef.set({
+    ...userData.data,
+    cards: newCards,
+  });
+
+  
   let traderCards = traderData.data.cards.filter(cardId => cardId !== tradeData.data.offeredCard);
   traderCards.push(tradeData.data.requestedCard);
   traderRef.set({
