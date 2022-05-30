@@ -29,6 +29,8 @@
   flex-direction: column;
   gap: 1vh;
   overflow-y: scroll;
+  z-index: 2;
+  background-color: white;
 }
 
 .card-screen-header {

@@ -53,7 +53,7 @@ const UpgradeCardPage = (props) => {
 
   const upgradeStat = (stat, change) => {
 
-    if (balance <= 0 && change > 0) {
+    if (balance - change <= -1) {
       return;
     }
 
@@ -147,8 +147,12 @@ const UpgradeCardPage = (props) => {
       Number(newStats.strength) - Number(minStats.strength),
       Number(newStats.accuracy) - Number(minStats.accuracy),
       Number(newStats.defense) - Number(minStats.defense)
-    ).then(() => {
-      navigate("/my-cards");
+    ).then((res) => {
+      if (res) {
+        navigate("/my-cards");
+      } else {
+        alert('You do not have enough points!');
+      }
     });
   };
 

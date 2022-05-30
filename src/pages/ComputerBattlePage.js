@@ -217,8 +217,8 @@ const ComputerBattlePage = (props) => {
       case "stab":
         setDefender({
           ...defender,
-          health: defender.health - Math.floor(hit / 2),
-          accuracy: defender.accuracy - Math.floor(hit / 2),
+          health: defender.health - Math.ceil(hit / 2),
+          accuracy: defender.accuracy - Math.ceil(hit / 2),
         });
         setHitSplat({
           damage: hit,
@@ -228,8 +228,8 @@ const ComputerBattlePage = (props) => {
       case "crush":
         setDefender({
           ...defender,
-          health: defender.health - Math.floor(hit / 2),
-          strength: defender.strength - Math.floor(hit / 2),
+          health: defender.health - Math.ceil(hit / 2),
+          strength: defender.strength - Math.ceil(hit / 2),
         });
         setHitSplat({
           damage: hit,

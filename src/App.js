@@ -100,7 +100,12 @@ function App() {
   };
 
   const upgradeCard = (id) => {
-    setUpgradeId(id);
+
+    if (id === upgradeId) {
+      navigate(`/upgrade-card/${upgradeId}`);
+    } else {
+      setUpgradeId(id);
+    }
   };
 
   const requestTrade = (cardId, requesteeId) => {

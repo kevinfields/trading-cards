@@ -17,8 +17,7 @@ export default async function UPGRADE_CARD(
   const newBalance = Number(data.xpRemaining) - Number(totalCost);
 
   if (newBalance < 0) {
-    alert("You don't have enough points!");
-    return;
+    return false;
   }
 
   let cardData;
@@ -55,4 +54,5 @@ export default async function UPGRADE_CARD(
     ...data,
     xpRemaining: newBalance,
   });
+  return true;
 }

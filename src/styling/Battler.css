@@ -1,6 +1,7 @@
 .battler {
   width: 10vw;
   height: 20vh;
+  z-index: -2;
 }
 
 .battler-stat {
