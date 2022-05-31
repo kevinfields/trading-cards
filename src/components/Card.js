@@ -10,6 +10,19 @@ const Card = (props) => {
     block = true;
   }
 
+  let defeats = props.card.defeats ? props.card.defeats.length : 1;
+  if (defeats === 0) {
+    defeats = 1;
+  }
+
+  let ratio = (props.card.victories ? props.card.victories.length : 0) / (defeats);
+  
+  if (ratio.toString().split('').includes('.')) {
+    ratio = Number(ratio.toString().substring(0, ratio.toString().indexOf('.') + 3));
+  }
+
+
+
   return (
     <div className="card">
       <p className="card-name">{props.card.name}</p>
@@ -51,6 +64,12 @@ const Card = (props) => {
         </p>
         <p className='card-stat'>
           Losses: {props.card.defeats ? props.card.defeats.length : 0}
+        </p>
+        <p className='card-stat'>
+          Ratio: {ratio}
+        </p>
+        <p className='card-stat'>
+          Upgrades: {props.card.upgrades ? props.card.upgrades : 0}
         </p>
       </div>
       {
