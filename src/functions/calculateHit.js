@@ -17,7 +17,7 @@ export default function calculateHit(aS, aA, dD, dA) {
   let range = [0, ((baseHit - baseDefense) + 5)];
   let rangeCount = range[1];
   
-  if (rangeCount < 0) {
+  if (rangeCount <= 0) {
     range = [0, 2];
     rangeCount = 2;
   }
@@ -53,12 +53,20 @@ export default function calculateHit(aS, aA, dD, dA) {
         vals.push(i);
         vals.push(i);
         vals.push(i);
+        if (middles.length === 1) {
+          vals.push(i - 1);
+          vals.push(i + 1);
+        }
       } else {
         vals.push(i);
         vals.push(i);
       }
     }
     vals.push(rangeCount);
+  }
+
+  if (vals[0] === 0 && vals[1] === 1 && vals.length === 2) {
+    vals = [0, 1, 1, 2];
   }
 
   console.log('Table of values: ' + vals);

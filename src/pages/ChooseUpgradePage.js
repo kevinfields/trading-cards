@@ -22,10 +22,12 @@ const ChooseUpgradePage = (props) => {
         .get()
         // eslint-disable-next-line no-loop-func
         .then((doc) => {
-          objects.push({
-            id: cards[i],
-            data: doc.data(),
-          });
+          if (!doc.data().destroyed) {
+            objects.push({
+              id: cards[i],
+              data: doc.data(),
+            });
+          }
         });
     }
     setCardList(objects);

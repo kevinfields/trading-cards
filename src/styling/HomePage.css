@@ -1,0 +1,51 @@
+#home-page {
+  background-color: lightblue;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#home-page::-webkit-scrollbar {
+  display: none;
+}
+
+.welcome-header {
+  text-align: center;
+  color: blue;
+  text-shadow: 1px 1px red;
+  font-size: 5vh;
+}
+
+.how-to-play-header {
+  text-align: left;
+  margin-left: 10vw;
+  color: blue;
+  text-shadow: 1px 1px red;
+  font-size: 3.5vh;
+}
+
+.page-break {
+  height: 10vh;
+}
+
+.rules-box {
+  width: 55vw;
+  height: fit-content;
+  border: 1px solid black;
+  margin-left: 10vw;
+  border-radius: 5px;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5vh;
+}
+
+
+.rule {
+  border: 1px solid black;
+  height: fit-content;
+  padding: 1vh;
+  border-radius: 5px;
+}

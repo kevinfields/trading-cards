@@ -4,7 +4,13 @@
   top: 15vh;
   width: 30vw;
   height: 60vh;
-  border: 1px solid magenta;
+  border: 2px solid magenta;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px purple;
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .request-screen {
@@ -13,7 +19,13 @@
   top: 15vh;
   width: 30vw;
   height: 60vh;
-  border: 1px solid blue;
+  border: 2px solid blue;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px darkblue;
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .trade-request-header {

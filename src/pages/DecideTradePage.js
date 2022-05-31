@@ -93,7 +93,7 @@ const DecideTradePage = (props) => {
     <div className='page'>
       { details.id ?
       <div className='trade-request-wrapper'>
-        <h3 className='trade-request-header'>Trade Request from {props.allowAccept ? details.data.tradingWithName : details.data.userName}</h3>
+        <h3 className='trade-request-header'>Trade Request {props.allowAccept ? `from ${details.data.tradingWithName}` : `for ${details.data.tradingWithName}`}</h3>
         <div className='offer-screen'>
           <p>You have {props.allowAccept ? 'been' : null} offered: </p>
           { offeredCard.id ?

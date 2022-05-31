@@ -20,7 +20,6 @@ const LoginPage = (props) => {
     } else {
       const loginTime = new Date();
       await props.usersRef.doc(user.uid).set({
-        ...data,
         name: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
@@ -38,8 +37,9 @@ const LoginPage = (props) => {
   const login = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     props.auth.signInWithPopup(provider).then((data) => {
-      makeAccountIfNone(data.user);
-      ADD_SIGN_IN(props.usersRef.doc(data.user.uid), new Date());
+      makeAccountIfNone(data.user).then(() => {
+        ADD_SIGN_IN(props.usersRef.doc(data.user.uid), new Date());
+      })
       props.nav('/');
     });
   };

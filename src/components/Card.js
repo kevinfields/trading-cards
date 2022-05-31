@@ -2,6 +2,7 @@ import React from "react";
 import getBarWidth from "../functions/getBarWidth";
 import "../styling/Card.css";
 import StatBar from "./StatBar";
+import getTotalStats from '../functions/getTotalStats';
 
 const Card = (props) => {
 
@@ -21,10 +22,8 @@ const Card = (props) => {
     ratio = Number(ratio.toString().substring(0, ratio.toString().indexOf('.') + 3));
   }
 
-
-
   return (
-    <div className="card">
+    <div className={getTotalStats(props.card) === 400 ? "maxed-card" : "card"}>
       <p className="card-name">{props.card.name}</p>
       <p className="card-stat">
         <StatBar
@@ -59,6 +58,7 @@ const Card = (props) => {
         />
       </p>
       <div className='win-loss-ratio'>
+        <p className='card-stat'>Skill Total: {getTotalStats(props.card)}</p>
         <p className='card-stat'>
           Wins: {props.card.victories ? props.card.victories.length : 0}
         </p>
@@ -84,6 +84,13 @@ const Card = (props) => {
         <div className='offer-trade-button' onClick={() => props.onOffer()}>
           OFFER
         </div>
+        : null
+      }
+      {
+      props.onDestroy ?
+        <button className='destroy-card-button' onClick={() => props.onDestroy()}>
+          DESTROY 
+        </button>
         : null
       }
     </div>

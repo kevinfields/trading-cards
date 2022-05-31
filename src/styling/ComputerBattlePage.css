@@ -39,3 +39,14 @@
   font-weight: bold;
   color: blue;
 }
+
+.battle-headers {
+  position: fixed;
+  width: 15vw;
+  left: 50vw;;
+  top: 7.5vh;
+  border: 1px solid black;
+  text-align: center;
+  z-index: 1;
+  background-color: white;
+}

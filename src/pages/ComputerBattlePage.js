@@ -56,6 +56,7 @@ const ComputerBattlePage = (props) => {
     damage: 0,
     player: "",
   });
+  const [healCount, setHealCount] = useState(0);
   const dummy = useRef();
 
   const userRef = props.firestore.collection("users").doc(props.user.uid);
@@ -111,14 +112,16 @@ const ComputerBattlePage = (props) => {
         .get()
         // eslint-disable-next-line no-loop-func
         .then((doc) => {
-          objects.push({
-            id: choices[i],
-            name: doc.data().name,
-            health: doc.data().health,
-            strength: doc.data().strength,
-            accuracy: doc.data().accuracy,
-            defense: doc.data().defense,
-          });
+          if (!doc.data().destroyed) {
+            objects.push({
+              id: choices[i],
+              name: doc.data().name,
+              health: doc.data().health,
+              strength: doc.data().strength,
+              accuracy: doc.data().accuracy,
+              defense: doc.data().defense,
+            });
+          }
         });
     }
     setChoices(objects);
@@ -236,12 +239,24 @@ const ComputerBattlePage = (props) => {
           player: "computer",
         });
         break;
+      case 'slice':
+        setDefender({
+          ...defender,
+          health: defender.health - Math.ceil(hit / 2),
+          defense: defender.defense - Math.ceil(hit / 2), 
+        })
+        setHitSplat({
+          damage: hit,
+          player: 'computer',
+        })
+        break;
       case 'heal':
         newHealth = calculateHeal(attacker.health, attackerMax.health)
         setAttacker({
           ...attacker,
           health: newHealth,
         });
+        setHealCount(healCount + 1);
         break;
       default:
         break;
@@ -303,6 +318,7 @@ const ComputerBattlePage = (props) => {
       defenderX: 70,
       defenderY: 70,
     })
+    setHealCount(0);
     chooseCard();
   };
 
@@ -348,7 +364,12 @@ const ComputerBattlePage = (props) => {
 
   return (
     <div className="page">
-      {round > 0 ? <h3 className="round-title">Round {round}</h3> : null}
+      {round > 0 ? (
+        <div className='battle-headers'>
+          <h3 className="round-title">Round {round}</h3>
+          <h3 className='heal-title'>Heals Left: {5 - healCount}</h3>
+        </div>
+      ) : null}
       <div className="battle-screen">
         {choices.length > 0 ? (
           <div className="choose-card-screen">
@@ -376,9 +397,12 @@ const ComputerBattlePage = (props) => {
           {allow ? (
             <>
               <button onClick={() => newRound("slash")}>Slash</button>
-              <button onClick={() => newRound("stab")}>Stab</button>
               <button onClick={() => newRound("crush")}>Crush</button>
-              <button onClick={() => newRound('heal')}>Heal</button>
+              <button onClick={() => newRound("slice")}>Slice</button>
+              <button onClick={() => newRound("stab")}>Stab</button>
+              { healCount < 5 ?
+                <button onClick={() => newRound('heal')}>Heal</button>
+              : null }
             </>
           ) : null}
         </div>

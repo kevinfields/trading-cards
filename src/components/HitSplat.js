@@ -9,6 +9,7 @@ const HitSplat = (props) => {
         position: "fixed",
         left: `${props.x - 2}vw`,
         bottom: `${props.y - 5}vh`,
+        textAlign: 'center',
       }}
     >
       {props.damage}

@@ -1,7 +1,9 @@
+import { reauthenticateWithCredential } from "firebase/auth";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Card from "../components/Card";
 import LoadingScreen from "../components/LoadingScreen";
+import DESTROY_CARD from "../reducers/DESTROY_CARD";
 import "../styling/MyCardsPage.css";
 
 const MyCards = (props) => {
@@ -25,12 +27,27 @@ const MyCards = (props) => {
         .doc(cardList[i])
         .get()
         .then((doc) => {
-          allCards.push(doc.data());
+          allCards.push({
+            data: doc.data(),
+            id: doc.id,
+          });
         });
     }
     setCards(allCards);
     setLoading(false);
   };
+
+  const destroyer = async (id, name) => {
+
+    if (!window.confirm(`Are you sure you want to destroy ${name}? This cannot be undone!`)) {
+      return;
+    };
+    console.log('time to destroy')
+    await DESTROY_CARD(cardsRef.doc(id), userRef).then(() => {
+      console.log("success!")
+      getCards();
+    });
+  }
 
   useEffect(() => {
     getCards();
@@ -42,7 +59,7 @@ const MyCards = (props) => {
       <div className="card-list">
         {cards.length > 0 ? (
           cards.map((card) => (
-            <Card card={card} key={`${card.creatorId}${card.name}`} />
+            <Card card={card.data} key={card.id} onDestroy={() => destroyer(card.id, card.data.name)}/>
           ))
         ) : (
           <div className='make-card-prompt'>
