@@ -4,6 +4,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import ADD_SIGN_IN from "./reducers/ADD_SIGN_IN";
 import HomePage from "./pages/HomePage";
 import MakeCardPage from "./pages/MakeCardPage";
 import LoginPage from "./pages/LoginPage";
@@ -21,6 +22,7 @@ import EditProfilePage from "./pages/EditProfilePage";
 import MakeTradePage from "./pages/MakeTradePage";
 import TradeRequests from "./pages/TradeRequestsPage";
 import DecideTradePage from "./pages/DecideTradePage";
+import AlertsPage from './pages/AlertsPage';
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -30,6 +32,8 @@ firebase.initializeApp({
   messagingSenderId: "175363295618",
   appId: "1:175363295618:web:f90bf8772f1e099eaaa79b",
 });
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -86,6 +90,8 @@ function App() {
   const lookupUserCards = (id) => {
     if (id === user.uid) {
       navigate('my-cards');
+    } else if (cardsId === id) {
+      navigate(`/profile/${cardsId}/cards`)
     } else {
       setCardsId(id);
     }
@@ -93,8 +99,10 @@ function App() {
 
   const lookupUser = (id) => {
     if (id === user.uid) {
-      navigate('/my-profile')
-    } else {
+      navigate('/my-profile');
+    } else if (lookupId === id) {
+      navigate(`/profile/${lookupId}`);
+    }  else {
       setLookupId(id);  
     }
   };
@@ -109,18 +117,47 @@ function App() {
   };
 
   const requestTrade = (cardId, requesteeId) => {
-    setTradeRequest({
-      requesteeId: requesteeId,
-      cardId: cardId,
-    });
+
+    if (tradeRequest.cardId === cardId) {
+      navigate(`/trade-request/${tradeRequest.cardId}`);
+    } else {
+      setTradeRequest({
+        requesteeId: requesteeId,
+        cardId: cardId,
+      });
+    }
   };
 
   const openTradeRequest = (item) => {
-    setViewedRequest(item);
+
+    if (viewedRequest.id === item.id) {
+      navigate(`/view-trade-request/${viewedRequest.id}`);
+    } else {
+      setViewedRequest(item);
+    }
+  }
+
+  const openTradeRequestId = async (id) => {
+    if (viewedRequest.id === id) {
+      navigate(`/view-trade-request/${viewedRequest.id}`);
+    } else {
+      let requestData;
+      await firestore.collection('users').doc(user.uid).collection('trade-offers').doc(id).get().then(doc => {
+        requestData = {
+          data: doc.data(),
+          id: id,
+        };
+        setViewedRequest(requestData);
+      });
+    }
   }
 
   const openTradeOffer = (item) => {
-    setViewedOffer(item);
+    if (viewedOffer.id === item.id) {
+      navigate(`/view-trade-offer/${viewedOffer.id}`);
+    } else {
+      setViewedOffer(item);
+    }
   }
 
   useEffect(() => {
@@ -158,6 +195,13 @@ function App() {
       navigate(`/view-trade-offer/${viewedOffer.id}`);
     }
   }, [viewedOffer])
+
+  useEffect(() => {
+    if (user) {
+      const loginTime = new Date();
+      ADD_SIGN_IN(firestore.collection('users').doc(user.uid), loginTime);
+    }
+  }, [user])
 
   return (
     <div className="App">
@@ -197,7 +241,6 @@ function App() {
                   user={user}
                   lookupUserCards={(id) => lookupUserCards(id)}
                   lookupUser={(id) => lookupUser(id)}
-                  
                 />
               }
             />
@@ -377,21 +420,31 @@ function App() {
               }
             />
             : null}
+            <Route
+              path={'/alerts'}
+              element={
+                <AlertsPage 
+                  userRef={firestore.collection('users').doc(user.uid)}
+                  openRequest={(id) => openTradeRequestId(id)}
+                />
+              }
+            />
           </>
         )}
       </Routes>
       <div className="nav-links">
         {user ? (
           <>
-            <Link to="/">Home</Link>
-            <Link to="/my-profile">My Profile</Link>
-            <Link to="/my-cards">My Cards</Link>
-            <Link to='/trade-requests-list'>Trade Requests</Link>
-            <Link to="/make-card">Make Card</Link>
-            <Link to="/upgrade-card">Upgrade a Card</Link>
-            <Link to="/computer-battle">Battle Computer</Link>
-            <Link to="/all-users">All Users</Link>
-            <Link to="/logout">Log Out</Link>
+            <Link className='link' to="/">Home</Link>
+            <Link className='link' to="/my-profile">My Profile</Link>
+            <Link className='link' to='/alerts'>My Alerts</Link>
+            <Link className='link' to="/my-cards">My Cards</Link>
+            <Link className='link' to='/trade-requests-list'>Trade Requests</Link>
+            <Link className='link' to="/make-card">Make Card</Link>
+            <Link className='link' to="/upgrade-card">Upgrade a Card</Link>
+            <Link className='link' to="/computer-battle">Battle Computer</Link>
+            <Link className='link' to="/all-users">All Users</Link>
+            <Link className='link' to="/logout">Log Out</Link>
           </>
         ) : null}
       </div>

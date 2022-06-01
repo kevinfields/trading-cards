@@ -8,7 +8,15 @@ const LogoutPage = (props) => {
   }
   return (
     <div className='page'>
-      <button onClick={() => logout()}>Sign Out</button>
+      <button style={{
+        position: 'fixed',
+        left: '50vw',
+        width:'15vw',
+        top: '45vh',
+        height: '10vh',
+        fontSize: '18pt',
+      }}
+      onClick={() => logout()}>Sign Out</button>
     </div>
   )
 }

@@ -51,13 +51,17 @@ const DecideTradePage = (props) => {
 
     if (accept) {
       if (window.confirm('Are you sure? This trade will be final, and can only be reversed by trading the cards again.')) {
+
+        const timeStamp = new Date();
+
         await ACCEPT_TRADE(
           props.tradeRef, 
           props.traderRef.collection('trade-offers').doc(twinRef), 
           props.userRef, 
           props.traderRef, 
           props.cardsRef.doc(details.data.requestedCard), 
-          props.cardsRef.doc(details.data.offeredCard)
+          props.cardsRef.doc(details.data.offeredCard),
+          timeStamp,
         ).then(() => {
           navigate('/my-cards');
         })
@@ -66,9 +70,12 @@ const DecideTradePage = (props) => {
       }
     } else {
       if (window.confirm('Are you sure? You may request this trade again in the future.')) {
+        const timeStamp = new Date();
         await DECLINE_TRADE(
           props.tradeRef, 
-          props.traderRef.collection('trade-offers').doc(twinRef)
+          props.traderRef.collection('trade-offers').doc(twinRef),
+          props.traderRef.collection('alerts'),
+          timeStamp,
         ).then(() => {
           navigate('/trade-requests-list');
         })

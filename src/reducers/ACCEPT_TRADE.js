@@ -1,4 +1,4 @@
-export default async function ACCEPT_TRADE(tradeRef, twinRef, userRef, traderRef, myCardRef, traderCardRef) {
+export default async function ACCEPT_TRADE(tradeRef, twinRef, userRef, traderRef, myCardRef, traderCardRef, time) {
 
   let tradeData;
   await tradeRef.get().then(doc => {
@@ -65,6 +65,12 @@ export default async function ACCEPT_TRADE(tradeRef, twinRef, userRef, traderRef
     ...traderData.data,
     cards: traderCards,
   });
+  traderRef.collection('alerts').add({
+    message: `${userData.data.name} has accepted your trade offer for their card ${tradeData.data.requestedCardName ? tradeData.data.requestedCardName : tradeData.data.requestedCard}.`,
+    timestamp: time,
+    read: false,
+    type: 'accepted trade',
+  })
 
   let myCardData;
 
@@ -101,5 +107,7 @@ export default async function ACCEPT_TRADE(tradeRef, twinRef, userRef, traderRef
     ownerId: userData.id,
     ownerList: newOwnerListTradedCard,
   });
+
+
 
 }

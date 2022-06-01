@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+html { 
+  background: linear-gradient(blue, magenta) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .page {
   position: fixed;
   left: 20vw;
@@ -19,16 +27,36 @@ code {
   width: 75vw;
   height: 90vh;
   border: 1px solid black;
+  background: linear-gradient(45deg, white, rgb(255, 254, 217));
+  padding: 1vw;
 }
 
 .nav-links {
   display: flex;
   flex-direction: column;
   width: 10vw;
+  padding-left: 2.5vw;
+  padding-top: 2vh;
   height: 90vh;
   position: fixed;
   left: 5vw;
   top: 5vh;
-  border: 1px solid black;
+  color: white;
+  border: 1px solid red;
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px 1px purple;
   gap: 2vh;
+}
+
+.link {
+  color: lightgreen;
+  height: 5vh;
+}
+
+.link:visited {
+  color: white;
+}
+
+.link:hover {
+  background-color: red;
 }

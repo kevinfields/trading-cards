@@ -22,9 +22,11 @@ const Card = (props) => {
     ratio = Number(ratio.toString().substring(0, ratio.toString().indexOf('.') + 3));
   }
 
+  const classValue = getTotalStats(props.card);
+
   return (
-    <div className={getTotalStats(props.card) === 400 ? "maxed-card" : "card"}>
-      <p className="card-name">{props.card.name}</p>
+    <div className={classValue === 400 ? "maxed-card" : "card"}>
+      <p className={classValue === 400 ? "maxed-card-name" : "card-name"}>{props.card.name}</p>
       <p className="card-stat">
         <StatBar
           value={props.card.health}

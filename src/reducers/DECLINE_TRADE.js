@@ -1,4 +1,4 @@
-export default async function DECLINE_TRADE(tradeRef, twinRef) {
+export default async function DECLINE_TRADE(tradeRef, twinRef, alertRef, time) {
   let tradeData;
   await tradeRef.get().then(doc => {
     tradeData = {
@@ -24,4 +24,11 @@ export default async function DECLINE_TRADE(tradeRef, twinRef) {
     ...twinData.data,
     declined: true,
   })
+
+  alertRef.add({
+    timestamp: time,
+    message: `Sorry, ${tradeData.data.userName} has declined your trade offer for their card ${tradeData.data.requestedCardName ? tradeData.data.requestedCardName : tradeData.data.requestedCard}.`,
+    read: false,
+    type: 'declined trade',
+  });
 }

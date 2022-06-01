@@ -1,0 +1,63 @@
+.alert {
+  border: 2px solid red;
+  box-shadow: 1px 1px 1px 1px darkred;
+  width: 30vw;
+  line-height: 3vh;
+  padding: 1vw;
+}
+
+.flex-buttons {
+  display: flex;
+  flex-direction: row;
+  width: 28vw;
+  gap: 14vw;
+}
+
+.view-request {
+  width: 7vw;
+  height: 5vh;
+  background-color: transparent;
+  color: blue;
+  border-style: solid;
+  border-color: blue;
+  border-width: 1px 3px 3px 1px;
+  border-radius: 5px;
+  align-self: flex-end;
+}
+
+.view-request:hover {
+  cursor: pointer;
+  background-color: lightblue;
+}
+
+.view-request:active {
+  border-width: 3px 1px 1px 3px;
+}
+
+.alert-read {
+  width: 7vw;
+  height: 5vh;
+  background-color: transparent;
+  color: green;
+  border-style: solid;
+  border-color: green;
+  border-width: 1px 3px 3px 1px;
+  border-radius: 5px;
+}
+
+.alert-read:hover {
+  background-color: lightgreen;
+  cursor: pointer;
+}
+
+.alert-read:active {
+  border-width: 3px 1px 1px 3px;
+}
+
+.alert-message {
+  
+}
+
+.alert-time {
+
+}

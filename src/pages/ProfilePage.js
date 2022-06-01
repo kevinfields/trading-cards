@@ -33,39 +33,41 @@ const ProfilePage = (props) => {
 
   return (
     <div className="page">
-      <h3 className="profile-header">My Profile</h3>
-      <button
-        className="edit-profile-button"
-        onClick={() => openProfileEditor()}
-      >
-        Edit Details
-      </button>
-      {details.id !== "" ? (
-        <>
-          <div className="personal-information">
-            <p className="personal-info-item">{details.data.name}</p>
-            <p className="personal-info-item">Email: {details.data.email}</p>
-            <p className="personal-info-item">
-              Battles: {Number(details.data.wins) + Number(details.data.losses)}
-            </p>
-            <p className="personal-info-item">Victories: {details.data.wins}</p>
-            <p className="personal-info-item">Defeats: {details.data.losses}</p>
-            <p className="personal-info-item">
-              Total Xp: {details.data.xpTotal}
-            </p>
-            <p className="personal-info-item">
-              Unused Xp: {details.data.xpRemaining}
-            </p>
-          </div>
-          <img
-            className="profile-photo"
-            src={details.data.photoURL}
-            alt={details.data.name}
-          />
-        </>
-      ) : (
-        <LoadingScreen />
-      )}
+      <div className='profile-wrapper'>
+        <h3 className="profile-header">My Profile</h3>
+        <button
+          className="edit-profile-button"
+          onClick={() => openProfileEditor()}
+        >
+          Edit Details
+        </button>
+        {details.id !== "" ? (
+          <>
+            <div className="personal-information">
+              <p className="personal-info-item">{details.data.name}</p>
+              <p className="personal-info-item">Email: {details.data.email}</p>
+              <p className="personal-info-item">
+                Battles: {Number(details.data.wins) + Number(details.data.losses)}
+              </p>
+              <p className="personal-info-item">Victories: {details.data.wins}</p>
+              <p className="personal-info-item">Defeats: {details.data.losses}</p>
+              <p className="personal-info-item">
+                Total Xp: {details.data.xpTotal}
+              </p>
+              <p className="personal-info-item">
+                Unused Xp: {details.data.xpRemaining}
+              </p>
+            </div>
+            <img
+              className="profile-photo"
+              src={details.data.photoURL}
+              alt={details.data.name}
+            />
+          </>
+        ) : (
+          <LoadingScreen />
+        )}
+      </div>
     </div>
   );
 };

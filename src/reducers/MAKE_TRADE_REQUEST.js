@@ -91,7 +91,17 @@ export default async function MAKE_TRADE_REQUEST(userRef, requesteeRef, cardOffe
       userRef.collection('trade-offers').doc(doc.id).set({
         ...dataObject,
         twinDoc: secondDoc.id,
+      }).then(() => {
+        requesteeRef.collection('alerts').add({
+          message: `You have a new trade request! ${userData.data.name} wants to trade for your card ${requestedCard.name}.`,
+          timestamp: date,
+          read: false,
+          type: 'trade request',
+          requestId: secondDoc.id,
+        });
       });
-    })
-  })
+    });
+  });
+
+  
 }
