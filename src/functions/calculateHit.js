@@ -7,6 +7,12 @@
 // [0, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10]
 
 
+// the Math.floor(aS / 3) value is there so players with high strength can still hit
+// against high defense. This significantly increases the hit value range, so instead
+// of 100 strength vs 100 defense having a range of 0-2, it is now 0-12 (2 + Math.floor(100/10)) 
+
+
+
 
 export default function calculateHit(aS, aA, dD, dA) {
   console.table([aS, aA, dD, dA]);
@@ -14,7 +20,7 @@ export default function calculateHit(aS, aA, dD, dA) {
   const baseHit = Math.floor(Number(aS) * (Number(aA) / 100));
   const baseDefense = Math.floor(Number(dD) * (Number(dA) / 100));
   
-  let range = [0, ((baseHit - baseDefense) + 5)];
+  let range = [0, ((baseHit - baseDefense) + Math.floor(aS / 10))];
   let rangeCount = range[1];
   
   if (rangeCount <= 0) {
