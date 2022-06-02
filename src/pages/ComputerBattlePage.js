@@ -5,6 +5,8 @@ import HitSplat from "../components/HitSplat";
 import LoadingScreen from "../components/LoadingScreen";
 import calculateHeal from "../functions/calculateHeal";
 import calculateHit from "../functions/calculateHit";
+import checkBadges from "../functions/checkBadges";
+import ADD_BADGE from "../reducers/ADD_BADGE";
 import ADD_BATTLE from "../reducers/ADD_BATTLE";
 import ADD_LOSS from "../reducers/ADD_LOSS";
 import ADD_WIN from "../reducers/ADD_WIN";
@@ -60,6 +62,7 @@ const ComputerBattlePage = (props) => {
   const dummy = useRef();
 
   const userRef = props.firestore.collection("users").doc(props.user.uid);
+  const badgesRef = props.firestore.collection('badges');
   const allCardsRef = props.firestore.collection("cards");
   const opponentRef = props.firestore.collection("users").doc("computer");
   const opponentCardRef = props.firestore
@@ -341,6 +344,8 @@ const ComputerBattlePage = (props) => {
       restartGame();
     }
     if (defender.health <= 0) {
+
+      const time = new Date();
       clearTimeout(timeoutId);
       ADD_WIN(userRef, cardRef, props.computerCardId, round);
       ADD_LOSS(opponentRef, opponentCardRef, cardId);
@@ -352,8 +357,20 @@ const ComputerBattlePage = (props) => {
         props.computerCardId,
         props.user.uid,
         round,
-        new Date(),
+        time,
       );
+
+      checkBadges(attacker, attackerMax, defender, defenderMax, round, time, props.computerCardId, badgesRef, userRef);
+
+      if (attacker.health >= 50) {
+        ADD_BADGE(badgesRef, userRef, {
+          title: 'Sweeping Victory',
+          rank: 2,
+          description: 'Win a battle with at least 50 health remaining.',
+          firstEarned: time,
+          idTag: 'sweeping_victory',
+        })
+      };
       const textOptions = ['computerBeginner', 'computerNovice', 'computerProficient', 'computerExpert', 'computerMaster'];
       const pointValue = textOptions.indexOf(props.computerCardId) + 1;
       const finalValue = pointValue * Math.ceil(round / 5);
