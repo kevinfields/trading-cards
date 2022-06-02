@@ -4,7 +4,6 @@ import Alert from '../components/Alert';
 import LoadingScreen from '../components/LoadingScreen';
 import formatTime from '../functions/formatTime';
 
-const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 const AlertsPage = (props) => {
 
