@@ -47,7 +47,7 @@ const BadgesScreen = (props) => {
       {loading ? 
           <LoadingScreen />
         : !loading && badges.length === 0 ?
-          <p className='no-badges-message'>You do not have any badges yet.</p>
+          <p className='no-badges-message'>{props.self ? 'You ' : 'This player '} not have any badges yet.</p>
         : badges.map(item => (
           <Badge badge={item} styling={{
             border: getBorderColor(item.rank)[0],

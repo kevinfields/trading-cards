@@ -146,7 +146,8 @@ const UpgradeCardPage = (props) => {
       Number(newStats.health) - Number(minStats.health),
       Number(newStats.strength) - Number(minStats.strength),
       Number(newStats.accuracy) - Number(minStats.accuracy),
-      Number(newStats.defense) - Number(minStats.defense)
+      Number(newStats.defense) - Number(minStats.defense),
+      props.badgesRef,
     ).then((res) => {
       if (res) {
         navigate("/my-cards");

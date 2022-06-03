@@ -365,19 +365,7 @@ const ComputerBattlePage = (props) => {
       const textOptions = ['computerBeginner', 'computerNovice', 'computerProficient', 'computerExpert', 'computerMaster'];
       const pointValue = textOptions.indexOf(props.computerCardId) + 1;
       const finalValue = pointValue * Math.ceil(round / 5);
-      setBadges(checkBadges(attacker, attackerMax, defender, defenderMax, round, time, finalValue, props.computerCardId, badgesRef, userRef));
-
-      if (attacker.health >= 50) {
-        ADD_BADGE(badgesRef, userRef, {
-          title: 'Sweeping Victory',
-          rank: 2,
-          description: 'Win a battle with at least 50 health remaining.',
-          firstEarned: time,
-          idTag: 'sweeping_victory',
-        })
-      };
-      
-      
+      setBadges(checkBadges(attacker, attackerMax, defender, defenderMax, round, time, finalValue, props.computerCardId, badgesRef, userRef));      
       alert(`Congratulations, you win! You earned ${finalValue} xp points for winning against ${props.computerCardId} in ${round} rounds.`);
       restartGame();
     }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styling/ProfilePage.css";
 import LoadingScreen from "../components/LoadingScreen";
+import BadgesScreen from "../components/BadgesScreen";
 
 const OtherProfilePage = (props) => {
   const [details, setDetails] = useState({
@@ -50,6 +51,12 @@ const OtherProfilePage = (props) => {
             src={details.data.photoURL}
             alt={details.data.name}
           />
+          { details.id === 'computer' ? null :
+          <>
+            <h3 className='badges-header'>Badges</h3>
+            <BadgesScreen userRef={props.userRef} self={false}/>
+          </>
+          }
         </>
       ) : (
         <LoadingScreen />

@@ -65,7 +65,7 @@ const ProfilePage = (props) => {
               alt={details.data.name}
             />
             <h3 className='badges-header'>Badges</h3>
-            <BadgesScreen userRef={props.userRef} />
+            <BadgesScreen userRef={props.userRef} self={true}/>
           </>
         ) : (
           <LoadingScreen />

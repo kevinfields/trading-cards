@@ -336,6 +336,7 @@ function App() {
                   id={upgradeId}
                   userRef={firestore.collection("users").doc(user.uid)}
                   cardsRef={firestore.collection("cards")}
+                  badgesRef={firestore.collection('badges')}
                 />
               }
             />
