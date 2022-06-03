@@ -36,6 +36,18 @@ export default async function ADD_BADGE(badgesRef, userRef, badgeObject) {
       ...badgeData,
       amount: Number(badgeData.amount) + 1,
     });
+
+    if (Number(badgeData.amount) === 99 && badgeObject.title === 'Fearless') {
+
+      const timestamp = new Date();
+      ADD_BADGE(badgesRef, userRef, {
+        title: "Computer's Nightmare",
+        description: "Defeat the Computer's Master Card 100 times.",
+        rank: 5,
+        idTag: 'computers_nightmare',
+        firstEarned: timestamp,
+      });
+    }
   } else {
 
     let badgeData;

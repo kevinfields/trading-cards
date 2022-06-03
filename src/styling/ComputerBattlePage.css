@@ -50,3 +50,34 @@
   z-index: 1;
   background-color: white;
 }
+
+
+.current-badges {
+  width: 30vw;
+  height: 20vh;
+  border: 1px solid black;
+  position: fixed;
+  left: 65vw;
+  top: 75vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  gap: 2vw;
+  padding: 0.5vw;
+  justify-content: space-between;
+}
+
+.single-badge {
+  width: 5vw;
+  height: 5vw;
+  border-radius: 5px;
+  border: 1px solid black;
+  text-align: center;
+  font-size: 10pt;
+}
+
+.close-badges {
+  width: 2vw;
+  height: 2vw;
+}

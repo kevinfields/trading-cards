@@ -60,3 +60,22 @@ html {
 .link:hover {
   background-color: red;
 }
+
+.login-button {
+  width: 20vw;
+  position: fixed;
+  left: 47.5vw;
+  top: 45vh;
+  height: 10vh;
+  border: 2px solid red;
+  background-color: transparent;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px magenta;
+  color: red;
+  font-size: 18pt;
+}
+
+.login-button:hover {
+  background-color: rgb(255, 173, 255);
+  cursor: pointer;
+}

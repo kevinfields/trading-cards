@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import Alert from '../components/Alert';
 import LoadingScreen from '../components/LoadingScreen';
 import formatTime from '../functions/formatTime';
+import '../styling/AlertsPage.css';
 
 
 const AlertsPage = (props) => {

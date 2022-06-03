@@ -37,3 +37,11 @@
   left: 50vw;
   top: 10vh;
 }
+
+.badges-header {
+  position: fixed;
+  left: 52.5vw;
+  top: 43vh;
+  height: 5vh;
+  color: blue;
+}

@@ -44,8 +44,7 @@
 
 
 .rule {
-  border: 1px solid black;
+  
   height: fit-content;
   padding: 1vh;
-  border-radius: 5px;
 }

@@ -59,6 +59,7 @@ const ComputerBattlePage = (props) => {
     player: "",
   });
   const [healCount, setHealCount] = useState(0);
+  const [badges, setBadges] = useState([]);
   const dummy = useRef();
 
   const userRef = props.firestore.collection("users").doc(props.user.uid);
@@ -157,8 +158,10 @@ const ComputerBattlePage = (props) => {
     }
   }, [position]);
 
+
   const makeChoice = async (card) => {
     dummy.current.focus();
+    setBadges([]);
     let reference = props.firestore.collection("cards").doc(card);
     let data;
     setCardRef(reference);
@@ -359,8 +362,10 @@ const ComputerBattlePage = (props) => {
         round,
         time,
       );
-
-      checkBadges(attacker, attackerMax, defender, defenderMax, round, time, props.computerCardId, badgesRef, userRef);
+      const textOptions = ['computerBeginner', 'computerNovice', 'computerProficient', 'computerExpert', 'computerMaster'];
+      const pointValue = textOptions.indexOf(props.computerCardId) + 1;
+      const finalValue = pointValue * Math.ceil(round / 5);
+      setBadges(checkBadges(attacker, attackerMax, defender, defenderMax, round, time, finalValue, props.computerCardId, badgesRef, userRef));
 
       if (attacker.health >= 50) {
         ADD_BADGE(badgesRef, userRef, {
@@ -371,9 +376,8 @@ const ComputerBattlePage = (props) => {
           idTag: 'sweeping_victory',
         })
       };
-      const textOptions = ['computerBeginner', 'computerNovice', 'computerProficient', 'computerExpert', 'computerMaster'];
-      const pointValue = textOptions.indexOf(props.computerCardId) + 1;
-      const finalValue = pointValue * Math.ceil(round / 5);
+      
+      
       alert(`Congratulations, you win! You earned ${finalValue} xp points for winning against ${props.computerCardId} in ${round} rounds.`);
       restartGame();
     }
@@ -463,6 +467,20 @@ const ComputerBattlePage = (props) => {
             }
           />
         ) : null}
+        {
+        badges.length > 0 ? 
+          <div className='current-badges'>
+            <h3 className='current-badges-header'>
+              Badges Earned:
+            </h3>
+            {badges.map(item => (
+              <div className='single-badge'>
+                {item}
+              </div>
+            ))}
+            <button className='close-badges' onClick={() => setBadges([])}>X</button>
+          </div>
+        : null}
       </div>
     </div>
   );

@@ -1,0 +1,39 @@
+.badges-screen {
+  position: fixed;
+  left: 35vw;
+  top: 50vh;
+  width: 41.5vw;
+  height: 40vh;
+  overflow-y: scroll;
+  overflow-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  gap: 1vw;
+  padding: 1vw;
+}
+
+.badge {
+  width: 12vw;
+  height: 12vw;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5vh;
+  justify-content: space-between;
+  border-radius: 5px;
+}
+
+.badge-title {
+  font-weight: bold;
+  font-size: 14pt;
+}
+
+.badge-description {
+  font-size: 10pt;
+}
+
+.badge-count {
+  font-weight: bold;
+}

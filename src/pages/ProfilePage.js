@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import "../styling/ProfilePage.css";
 import LoadingScreen from "../components/LoadingScreen";
+import BadgesScreen from "../components/BadgesScreen";
 
 const ProfilePage = (props) => {
   const [details, setDetails] = useState({
@@ -63,6 +64,8 @@ const ProfilePage = (props) => {
               src={details.data.photoURL}
               alt={details.data.name}
             />
+            <h3 className='badges-header'>Badges</h3>
+            <BadgesScreen userRef={props.userRef} />
           </>
         ) : (
           <LoadingScreen />

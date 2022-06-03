@@ -46,7 +46,7 @@ const LoginPage = (props) => {
 
   return (
     <div className="page">
-      <button onClick={() => login()}>Log In or Sign Up</button>
+      <button className='login-button' onClick={() => login()}>Log In or Sign Up</button>
     </div>
   );
 };
