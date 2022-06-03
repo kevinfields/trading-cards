@@ -28,11 +28,11 @@ const OtherProfilePage = (props) => {
 
   return (
     <div className="page">
-      <h3 className="profile-header">My Profile</h3>
+      <h3 className="profile-header">Profile</h3>
       {details.id !== "" ? (
         <>
           <div className="personal-information">
-            <p className="personal-info-item">{details.data.name}</p>
+            <h3 className="personal-info-item">{details.data.name}</h3>
             <p className="personal-info-item">Email: {details.data.email}</p>
             <p className="personal-info-item">
               Battles: {Number(details.data.wins) + Number(details.data.losses)}

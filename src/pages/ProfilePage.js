@@ -45,7 +45,7 @@ const ProfilePage = (props) => {
         {details.id !== "" ? (
           <>
             <div className="personal-information">
-              <p className="personal-info-item">{details.data.name}</p>
+              <h3 className="personal-info-item">{details.data.name}</h3>
               <p className="personal-info-item">Email: {details.data.email}</p>
               <p className="personal-info-item">
                 Battles: {Number(details.data.wins) + Number(details.data.losses)}
