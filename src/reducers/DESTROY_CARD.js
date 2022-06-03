@@ -7,7 +7,6 @@ export default async function DESTROY_CARD(cardRef, userRef) {
   await cardRef.get().then(doc => {
     cardData = doc.data();
     cardId = doc.id;
-    console.log('cardId: ' + cardId)
   });
 
   await userRef.get().then(doc => {
