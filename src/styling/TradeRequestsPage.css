@@ -45,3 +45,9 @@
   top: 5vh;
   font-size: 18pt;
 }
+
+.no-trades-message {
+  color: blue;
+  font-size: 16pt;
+  margin-top: 5vh;
+}

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import Badge from './Badge';
 import LoadingScreen from './LoadingScreen';
 import '../styling/BadgesScreen.css';
-import { getByPlaceholderText } from '@testing-library/react';
 
 const BadgesScreen = (props) => {
 

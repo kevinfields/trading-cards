@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styling/ProfilePage.css";
+import Card from "../components/Card";
 import LoadingScreen from "../components/LoadingScreen";
 import BadgesScreen from "../components/BadgesScreen";
 
@@ -8,6 +9,8 @@ const OtherProfilePage = (props) => {
     data: {},
     id: "",
   });
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const loadData = async () => {
     let data;
@@ -20,16 +23,33 @@ const OtherProfilePage = (props) => {
         id: id,
       });
     });
+    return data;
+  };
+
+  const loadCards = async (cards) => {
+    let cardsData = [];
+    for (let i=0; i<cards.length; i++) {
+      await props.cardsRef.doc(cards[i]).get().then(doc => {
+        cardsData.push({
+          id: doc.id,
+          data: doc.data(),
+        })
+      })
+    }
+    setCards(cardsData);
+    setLoading(false);
   };
 
   useEffect(() => {
-    loadData();
+    loadData().then((data) => {
+      loadCards(data.cards);
+    });
   }, []);
 
   return (
     <div className="page">
       <h3 className="profile-header">Profile</h3>
-      {details.id !== "" ? (
+      {!loading ? (
         <>
           <div className="personal-information">
             <h3 className="personal-info-item">{details.data.name}</h3>
@@ -55,6 +75,16 @@ const OtherProfilePage = (props) => {
           <>
             <h3 className='badges-header'>Badges</h3>
             <BadgesScreen userRef={props.userRef} self={false}/>
+            <h3 className='cards-header'>Cards</h3>
+            <div className='cards-screen'>
+              {cards.length > 0 ? cards.map(item => (
+                <Card card={item.data} />
+              ))
+              : cards.length === 0 && !loading ?
+              <p className='no-cards-alert'>You do not have any cards yet.</p>
+              : null
+              }
+            </div>
           </>
           }
         </>

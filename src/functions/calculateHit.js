@@ -15,7 +15,6 @@
 
 
 export default function calculateHit(aS, aA, dD, dA) {
-  console.table([aS, aA, dD, dA]);
 
   const baseHit = Math.floor(Number(aS) * (Number(aA) / 100));
   const baseDefense = Math.floor(Number(dD) * (Number(dA) / 100));
@@ -75,9 +74,8 @@ export default function calculateHit(aS, aA, dD, dA) {
     vals = [0, 1, 1, 2];
   }
 
-  console.log('Table of values: ' + vals);
   const hit = Math.floor(Math.random() * vals.length);
-  console.log('chosen value: ' + vals[hit]);
+
 
   return vals[hit];
 }

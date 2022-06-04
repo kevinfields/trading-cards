@@ -26,9 +26,7 @@ export default function checkBadges(attacker, attackerMax, defender, defenderMax
   };
 
   const defenderTotal = getTotalStats(defenderMax);
-  console.log('defenderTotal: ' + defenderTotal);
   const attackerTotal = getTotalStats(attackerMax);
-  console.log('attackerTotal: ' + attackerTotal);
 
   let allBadges = [];
 
@@ -152,6 +150,17 @@ export default function checkBadges(attacker, attackerMax, defender, defenderMax
       firstEarned: time,
     });
     allBadges.push('Heavy Reward');
+  }
+
+  if (defender.strength <= 0 || defender.accuracy <= 0 || defender.defense <= 0) {
+    ADD_BADGE(badgesRef, userRef, {
+      title: 'Specialist',
+      description: "Earn a victory after depleting one of your opponent's skills to level 0.",
+      rank: 1,
+      idTag: 'specialist',
+      firstEarned: time,
+    });
+    allBadges.push('Specialist')
   }
 
   return allBadges;

@@ -4,6 +4,7 @@
   top: 5vh;
   color: blue;
   height: 10vh;
+  font-size: 16pt;
 }
 
 
@@ -25,8 +26,8 @@
 
 .profile-photo {
   position: fixed;
-  left: 20vw;
-  top: 5vh;
+  left: 21vw;
+  top: 7vh;
   width: 15vw;
   height: 15vw;
   border: 2px solid blue;
@@ -35,13 +36,43 @@
 .edit-profile-button {
   position: fixed;
   left: 50vw;
-  top: 10vh;
+  top: 7.5vh;
+  height: 4vh;
+  width: 10vw;
+  font-size: 12pt;
+  color: blue;
+  background-color: transparent;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: blue;
+  border-width: 1px 3px 3px 1px;
 }
 
 .badges-header {
   position: fixed;
-  left: 52.5vw;
-  top: 43vh;
+  left: 40vw;
+  top: 42.5vh;
   height: 5vh;
   color: blue;
+  font-size: 16pt;
+}
+
+.cards-header {
+  position: fixed;
+  left: 70vw;
+  top: 5vh;
+  height: 5vh;
+  color: blue;
+  font-size: 16pt;
+}
+
+.cards-screen {
+  position: fixed;
+  left: 70vw;
+  width: 18vw;
+  height: 85vh;
+  top: 12.5vh;
+  border: 1px solid black;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

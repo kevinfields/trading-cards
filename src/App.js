@@ -345,6 +345,7 @@ function App() {
               element={
                 <ProfilePage
                   userRef={firestore.collection("users").doc(user.uid)}
+                  cardsRef={firestore.collection('cards')}
                 />
               }
             />
@@ -355,6 +356,7 @@ function App() {
                 element={
                   <OtherProfilePage
                     userRef={firestore.collection("users").doc(lookupId)}
+                    cardsRef={firestore.collection('cards')}
                   />
                 }
               />

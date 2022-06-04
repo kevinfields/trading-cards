@@ -57,11 +57,14 @@ const TradeRequests = (props) => {
               openRequest={() => props.openRequest(item)}
             />
           ))
-          : null
+          : <div className='no-trades-message'>
+              You do not have any current trade requests.
+            </div>
         }
       </div>
       : <div className='all-offers-list'>
-           {offers.map(item => (
+           {offers.length > 0 ?
+            offers.map(item => (
               <TradeRequest 
                 offeror={item.data.offeror ? item.data.userName : item.data.tradingWithName}
                 offeredCard={item.data.offeredCard}
@@ -74,7 +77,11 @@ const TradeRequests = (props) => {
                 requestDate={item.data.requestDate}
                 openOffer={() => props.openOffer(item)}
               />
-            ))}
+            ))
+          : <div className='no-trades-message'>
+              You do not have any current trade offers.
+            </div>
+          }
         </div>
         }
         <div>

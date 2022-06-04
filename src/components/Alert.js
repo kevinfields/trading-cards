@@ -19,7 +19,11 @@ const Alert = (props) => {
   };
 
   useEffect(() => {
-    getValidity();
+
+    if (props.tradeOfferRef != null) {
+      getValidity();
+    }
+    
   }, []);
 
   return (
