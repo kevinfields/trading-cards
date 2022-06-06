@@ -1,0 +1,53 @@
+.new-message-box {
+  width: 60vw;
+  height: 60vh;
+  position: fixed;
+  left: 27.5vw;
+  border: 2px solid blue;
+}
+
+.new-message-header {
+  color: blue;
+  text-align: center;
+  font-size: 16pt;
+}
+
+.new-message-input {
+  width: 40vw;
+  height: 40vh;
+  position: fixed;
+  left: 37.5vw;
+  border-radius: 10px;
+  font-size: 14pt;
+  line-height: 5vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.from-tag {
+  float: right;
+  margin-right: 10vw;
+  margin-top: 45vh;
+}
+
+.send-message-button {
+  width: 10vw;
+  height: 5vh;
+  position: fixed;
+  left: 37.5vw;
+  top: 60vh;
+  color: blue;
+  background-color: transparent;
+  border-style: solid;
+  border-color: blue;
+  border-radius: 5px;
+  border-width: 1px 3px 3px 1px;
+}
+
+.send-message-button:hover {
+  background-color: skyblue;
+  cursor: pointer;
+}
+
+.send-message-button:active {
+  border-width: 3px 1px 1px 3px;
+}

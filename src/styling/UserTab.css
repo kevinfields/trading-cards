@@ -27,6 +27,13 @@
   margin: 0px;
 }
 
+.messenger-link {
+  font-size: 10pt;
+  text-align: center;
+  color: rgb(224, 0, 224);
+  margin: 0px;
+}
+
 .cards-link:hover {
   cursor: pointer;
   color: darkred;
@@ -35,6 +42,11 @@
 .profile-link:hover {
   cursor: pointer;
   color: darkblue;
+}
+
+.messenger-link:hover {
+  cursor: pointer;
+  color: indigo;
 }
 
 .tab-id {
@@ -48,6 +60,6 @@
   width: 7vw;
   height: 7vw;
   border: 1px solid black;
-  margin-top: -2vw;
+  margin-top: -3vw;
   margin-left: 0.5vh;
 }

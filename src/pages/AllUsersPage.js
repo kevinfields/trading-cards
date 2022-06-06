@@ -32,6 +32,7 @@ const AllUsersPage = (props) => {
               key={item.id}
               onLookupCards={() => props.lookupUserCards(item.id)}
               onLookupUser={() => props.lookupUser(item.id)}
+              onSendMessage={() => props.sendMessage(item.id)}
             />
           ))}
       </div>

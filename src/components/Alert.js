@@ -35,6 +35,9 @@ const Alert = (props) => {
         {props.type === 'trade request' && valid ?
           <button className='view-request' onClick={() => props.openRequest()}>View Request</button>
         : null}
+        {props.type === 'new message' ?
+          <button className='view-request' onClick={() => props.openMessage()}>View Message</button>
+        : null}
       </div>
     </div>
   )

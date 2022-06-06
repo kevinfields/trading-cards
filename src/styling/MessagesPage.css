@@ -1,0 +1,27 @@
+.message-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 74vw;
+  height: 80vh;
+  gap: 2vw;
+  overflow-y: scroll;
+  border: 2px solid blue;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px darkblue;
+  position: fixed;
+  left: 21.5vw;
+  top: 15vh;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding-top: 2vh;
+}
+
+.no-messages-notif {
+  text-align: center;
+  font-size: 18pt;
+  color: blue;
+  position: relative;
+  width: 74vw;
+  margin-top: 2vh;
+}

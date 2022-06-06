@@ -1,0 +1,71 @@
+.message {
+  width: 30vw;
+  height: fit-content;
+  border: 2px solid blue;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px darkblue;
+  margin-bottom: 1vh;
+}
+
+.message-sender {
+  margin-left: 1vw;
+}
+
+.message-text {
+  margin-left: 1vw;
+  width: 26vw;
+  border: 2px solid rgb(194, 192, 140);
+  border-radius: 10px;
+  padding: 1vw;
+}
+
+.message-time {
+  margin-left: 1vw;
+}
+
+.message-read-button {
+  float: right;
+  width: 8vw;
+  height: 4vh;
+  left: 20vw;
+  margin-right: 1vw;
+  margin-bottom: 2vh;
+  color: blue;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: blue;
+  background-color: transparent;
+  border-width: 1px 3px 3px 1px;
+}
+
+.message-read-button:hover {
+  background-color: skyblue;
+  cursor: pointer;
+}
+
+.message-read-button:active {
+  border-width: 3px 1px 1px 3px;
+}
+
+.reply-button {
+  float: left;
+  margin-left: 1vw;
+  width: 8vw;
+  height: 4vh;
+  margin-bottom: 2vh;
+  color: red;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: red;
+  background-color: transparent;
+  border-width: 1px 3px 3px 1px;
+}
+
+.reply-button:hover {
+  background-color: pink;
+  cursor: pointer;
+}
+
+.reply-button:active {
+  border-width: 3px 1px 1px 3px;
+}

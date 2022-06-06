@@ -4,7 +4,8 @@
   align-items: center;
   gap: 1vh;
   height: 80vh;
-  width: 74.5vw;
+  width: 72.5vw;
+  margin-left: 2vw;
   border: 2px solid blue;
   border-radius: 5px;
   box-shadow: 1px 1px 1px 1px darkblue;
@@ -20,7 +21,8 @@
   align-items: center;
   gap: 1vh;
   height: 80vh;
-  width: 74.5vw;
+  width: 72.5vw;
+  margin-left: 2vw;
   border: 2px solid green;
   border-radius: 5px;
   box-shadow: 1px 1px 1px 1px rgb(3, 40, 0);

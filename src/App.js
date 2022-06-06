@@ -23,6 +23,8 @@ import MakeTradePage from "./pages/MakeTradePage";
 import TradeRequests from "./pages/TradeRequestsPage";
 import DecideTradePage from "./pages/DecideTradePage";
 import AlertsPage from './pages/AlertsPage';
+import MessagesPage from "./pages/MessagesPage";
+import SendMessagePage from "./pages/SendMessagePage";
 
 firebase.initializeApp({
   apiKey: "AIzaSyD_Iz9mplfNMC33D6BUGXxe5Ug1uMEEvJs",
@@ -86,6 +88,7 @@ function App() {
   });
   const [viewedRequest, setViewedRequest] = useState({});
   const [viewedOffer, setViewedOffer] = useState({});
+  const [messagingId, setMessagingId] = useState('-');
 
   const lookupUserCards = (id) => {
     if (id === user.uid) {
@@ -160,6 +163,14 @@ function App() {
     }
   }
 
+  const openMessenger = (id) => {
+    if (messagingId === id) {
+      navigate(`/send-message/${messagingId}`);
+    } else {
+      setMessagingId(id);
+    }
+  }
+
   useEffect(() => {
     if (cardsId !== "") {
       navigate(`/profile/${cardsId}/cards`);
@@ -188,13 +199,19 @@ function App() {
     if (viewedRequest.id) {
       navigate(`/view-trade-request/${viewedRequest.id}`);
     }
-  }, [viewedRequest])
+  }, [viewedRequest]);
 
   useEffect(() => {
     if (viewedOffer.id) {
       navigate(`/view-trade-offer/${viewedOffer.id}`);
     }
-  }, [viewedOffer])
+  }, [viewedOffer]);
+
+  useEffect(() => {
+    if (messagingId !== '-') {
+      navigate(`/send-message/${messagingId}`)
+    }
+  }, [messagingId]);
 
   useEffect(() => {
     if (user) {
@@ -241,6 +258,7 @@ function App() {
                   user={user}
                   lookupUserCards={(id) => lookupUserCards(id)}
                   lookupUser={(id) => lookupUser(id)}
+                  sendMessage={(id) => openMessenger(id)}
                 />
               }
             />
@@ -432,6 +450,29 @@ function App() {
                 />
               }
             />
+            <Route
+              path={'/messages'}
+              element={
+                <MessagesPage
+                  messagesRef={firestore.collection('users').doc(user.uid).collection('messages')}
+                  onReply={(id) => openMessenger(id)}
+                />
+              }
+            />
+            {messagingId !== '-' ? 
+            <Route 
+              path={`/send-message/${messagingId}`}
+              element={
+                <SendMessagePage 
+                  toId={messagingId} 
+                  receiverRef={firestore.collection('users').doc(messagingId)}
+                  myRef={firestore.collection('users').doc(user.uid)}
+                  self={messagingId === user.uid}
+                  myId={user.uid}
+                />
+              }
+            />
+            : null}
           </>
         )}
       </Routes>
@@ -441,6 +482,7 @@ function App() {
             <Link className='link' to="/">Home</Link>
             <Link className='link' to="/my-profile">My Profile</Link>
             <Link className='link' to='/alerts'>My Alerts</Link>
+            <Link className='link' to='/messages'>My Messages</Link>
             <Link className='link' to="/my-cards">My Cards</Link>
             <Link className='link' to='/trade-requests-list'>Trade Requests</Link>
             <Link className='link' to="/make-card">Make Card</Link>

@@ -1,5 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import Alert from '../components/Alert';
 import LoadingScreen from '../components/LoadingScreen';
 import formatTime from '../functions/formatTime';
@@ -10,6 +11,7 @@ const AlertsPage = (props) => {
 
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const loadAlerts = async () => {
 
@@ -58,6 +60,7 @@ const AlertsPage = (props) => {
                 hideAlert={() => hideAlert(item.id)}
                 type={item.data.type}
                 openRequest={props.openRequest ? () => props.openRequest(item.data.requestId) : null}
+                openMessage={() => navigate('/messages')}
                 tradeOfferRef={item.data.requestId ? props.userRef.collection('trade-offers').doc(item.data.requestId) : null}
               />
             ))
